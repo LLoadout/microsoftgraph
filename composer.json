@@ -1,6 +1,6 @@
 {
     "name": "lloadout/microsoftgraph",
-    "description": "This is my package microsoftgraph",
+    "description": "This package offers a wrapper round Microsoft Graph API",
     "keywords": [
         "LLoadout",
         "laravel",

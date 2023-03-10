@@ -41,6 +41,21 @@ MS_CLIENT_SECRET=
 MS_GRAPH_API_VERSION=v1.0
 MS_REDIRECT_URL=
 ```
+
+## Connect your account 
+
+The package provides two oAuth routes
+
+The first redirects you to the consent screen of Microsoft
+```
+https://your-url.com/graph/connect
+```
+
+The second is the callback url you need to specify in Microsoft Azure Portal app registration
+```
+https://your-url.com/graph/callback
+```
+
 ## If you want to send mail with the package then do this additional steps:
        
 Register the mail service provider in app.php

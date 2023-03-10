@@ -60,7 +60,9 @@
     "extra": {
         "laravel": {
             "providers": [
-                "LLoadout\\Microsoftgraph\\MicrosoftgraphServiceProvider"
+                "LLoadout\\Microsoftgraph\\MicrosoftgraphServiceProvider",
+                "LLoadout\\Microsoftgraph\\MailManager\\MicrosoftGraphMailServiceProvider"
+
             ],
             "aliases": {
                 "Microsoftgraph": "LLoadout\\Microsoftgraph\\Facades\\Microsoftgraph"

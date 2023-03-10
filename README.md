@@ -14,17 +14,30 @@ You can install the package via composer:
 composer require lloadout/microsoftgraph
 ```
 
-You can publish the config file with:
+Register the service provider in app.php
 
-```bash
-php artisan vendor:publish --tag="microsoftgraph-config"
+```
+LLoadout\Microsoftgraph\MailManager\MicrosoftGraphMailServiceProvider::class
 ```
 
-## Usage
+Add microsoftgraph as a Laravel Mailer in config/mail.php in mailers array:
+
+```
+'microsoftgraph' => [
+    'transport' => 'microsoftgraph',
+],
+```
+
+And set environment variable MAIL_MAILER in your .env file
+
+```
+MAIL_MAILER=microsoftgraph
+```
+
+## Usage 
 
 ```php
-    $graph = app(Microsoftgraph::class);
-    $graph->sendMail(new YourMailable());
+    Mail::send(new YourMailable());
 ```
 
 ## Testing

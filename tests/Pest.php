@@ -1,5 +1,0 @@
-<?php
-
-use LLoadout\Microsoftgraph\Tests\TestCase;
-
-uses(TestCase::class)->in(__DIR__);

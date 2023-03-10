@@ -14,6 +14,26 @@ You can install the package via composer:
 composer require lloadout/microsoftgraph
 ```
 
+add this to the array in app/services.php
+
+```
+ 'microsoft' => [
+        'client_id' => env('MS_CLIENT_ID'),
+        'client_secret' => env('MS_CLIENT_SECRET'),
+        'redirect' => env('MS_REDIRECT_URL')
+ ],
+```
+
+add this to the listen array of the EventServiceProvider
+```
+    \SocialiteProviders\Manager\SocialiteWasCalled::class => [
+        // ... other providers
+        \SocialiteProviders\Microsoft\MicrosoftExtendSocialite::class.'@handle',
+    ],
+```
+
+## If you want to send mail with the package then do this additional steps:
+       
 Register the mail service provider in app.php
 
 ```

@@ -32,6 +32,15 @@ add this to the listen array of the EventServiceProvider
     ],
 ```
 
+add this to your .env file and fill it with the values you specified in Microsoft Azure Portal app registration
+
+```
+MS_TENANT_ID=
+MS_CLIENT_ID=
+MS_CLIENT_SECRET=
+MS_GRAPH_API_VERSION=v1.0
+MS_REDIRECT_URL=
+```
 ## If you want to send mail with the package then do this additional steps:
        
 Register the mail service provider in app.php

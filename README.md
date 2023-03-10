@@ -66,7 +66,7 @@ MAIL_MAILER=microsoftgraph
 ## Usage 
 
 ```php
-    Mail::send(new YourMailable());
+Mail::send(new YourMailable());
 ```
 
 ## Testing

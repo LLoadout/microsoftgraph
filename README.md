@@ -14,17 +14,8 @@ You can install the package via composer:
 composer require lloadout/microsoftgraph
 ```
 
-add this to the array in app/services.php
-
-```
-'microsoft' => [
-    'client_id' => env('MS_CLIENT_ID'),
-    'client_secret' => env('MS_CLIENT_SECRET'),
-    'redirect' => env('MS_REDIRECT_URL')
-],
-```
-
 add this to the listen array of the EventServiceProvider
+
 ```
 \SocialiteProviders\Manager\SocialiteWasCalled::class => [
     // ... other providers
@@ -42,34 +33,28 @@ MS_GRAPH_API_VERSION=v1.0
 MS_REDIRECT_URL=
 ```
 
-## Connect your account 
+## Connect your account
 
 The package provides two oAuth routes
 
 The first redirects you to the consent screen of Microsoft
+
 ```
 https://your-url.com/graph/connect
 ```
 
 The second is the callback url you need to specify in Microsoft Azure Portal app registration
+
 ```
 https://your-url.com/graph/callback
 ```
 
 ## If you want to send mail with the package then do this additional steps:
-       
+
 Register the mail service provider in app.php
 
 ```
 LLoadout\Microsoftgraph\MailManager\MicrosoftGraphMailServiceProvider::class
-```
-
-Add microsoftgraph as a Laravel Mailer in config/mail.php in mailers array:
-
-```
-'microsoftgraph' => [
-    'transport' => 'microsoftgraph',
-],
 ```
 
 And set environment variable MAIL_MAILER in your .env file
@@ -78,7 +63,7 @@ And set environment variable MAIL_MAILER in your .env file
 MAIL_MAILER=microsoftgraph
 ```
 
-## Usage 
+## Usage
 
 ```php
 Mail::send(new YourMailable());

@@ -20,5 +20,17 @@ class MicrosoftgraphServiceProvider extends PackageServiceProvider
             'uses' => '\LLoadout\Microsoftgraph\Microsoftgraph@callback',
             'as' => 'graph.callback',
         ])->middleware('web');
+
+        $config = $this->app['config']->get('services', []);
+        $this->app['config']->set('services', array_merge(['microsoft' => [
+            'client_id' => env('MS_CLIENT_ID'),
+            'client_secret' => env('MS_CLIENT_SECRET'),
+            'redirect' => env('MS_REDIRECT_URL'),
+        ]], $config));
+
+        $config = $this->app['config']->get('mail', []);
+        $this->app['config']->set('mail.mailers', array_merge(['microsoftgraph' => [
+            'transport' => 'microsoftgraph',
+        ]], $config['mailers']));
     }
 }

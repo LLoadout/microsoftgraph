@@ -45,7 +45,7 @@ The callback will fire an MicrosoftGraphCallbackReceived event, you can add your
 ```
 Event::listen(function (MicrosoftGraphCallbackReceived $event) {
     $user = Auth::user();
-    $user->token = $event->user['token']]
+    $user->token = $event->user['token'];
     $user->save();
 });
 ```

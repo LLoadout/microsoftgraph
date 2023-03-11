@@ -21,8 +21,7 @@
         "microsoft/microsoft-graph": "^1.89",
         "socialiteproviders/microsoft": "^4.2",
         "spatie/laravel-package-tools": "^1.14.0",
-        "ext-fileinfo": "*",
-        "ext-http": "*"
+        "ext-fileinfo": "*"
     },
     "require-dev": {
         "laravel/pint": "^1.0",

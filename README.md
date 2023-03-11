@@ -14,15 +14,6 @@ You can install the package via composer:
 composer require lloadout/microsoftgraph
 ```
 
-add this to the listen array of the EventServiceProvider
-
-```
-\SocialiteProviders\Manager\SocialiteWasCalled::class => [
-    // ... other providers
-    \SocialiteProviders\Microsoft\MicrosoftExtendSocialite::class.'@handle',
-],
-```
-
 add this to your .env file and fill it with the values you specified in Microsoft Azure Portal app registration
 
 ```
@@ -61,13 +52,7 @@ Event::listen(function (MicrosoftGraphCallbackReceived $event) {
 
 ## If you want to send mail with the package then do this additional steps:
 
-Register the mail service provider in app.php
-
-```
-LLoadout\Microsoftgraph\MailManager\MicrosoftGraphMailServiceProvider::class
-```
-
-And set environment variable MAIL_MAILER in your .env file
+Set the environment variable MAIL_MAILER in your .env file
 
 ```
 MAIL_MAILER=microsoftgraph

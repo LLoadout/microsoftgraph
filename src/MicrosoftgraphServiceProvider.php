@@ -2,6 +2,7 @@
 
 namespace LLoadout\Microsoftgraph;
 
+use LLoadout\Microsoftgraph\Providers\EventServiceProvider;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -32,5 +33,11 @@ class MicrosoftgraphServiceProvider extends PackageServiceProvider
         $this->app['config']->set('mail.mailers', array_merge(['microsoftgraph' => [
             'transport' => 'microsoftgraph',
         ]], $config['mailers']));
+
+        $config = $this->app['config']->get('app', []);
+        $this->app['config']->set('app.providers',array_merge(        [LLoadout\Microsoftgraph\MailManager\MicrosoftGraphMailServiceProvider::class], $config['providers']));
+
+        $this->app->register(EventServiceProvider::class);
+
     }
 }

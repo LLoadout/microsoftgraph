@@ -50,7 +50,7 @@ Event::listen(function (MicrosoftGraphCallbackReceived $event) {
 });
 ```
 
-The package will search for a session variable name `microsoftgraph-token` for establishing the connection.  So please provide this variable
+The package will search for a session variable name `microsoftgraph-token` for establishing the connection.  So please provide this variable with your token as value
 
 ## If you want to send mail with the package then do this additional steps:
 

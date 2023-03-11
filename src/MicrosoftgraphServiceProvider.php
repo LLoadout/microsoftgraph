@@ -35,9 +35,8 @@ class MicrosoftgraphServiceProvider extends PackageServiceProvider
         ]], $config['mailers']));
 
         $config = $this->app['config']->get('app', []);
-        $this->app['config']->set('app.providers',array_merge(        [LLoadout\Microsoftgraph\MailManager\MicrosoftGraphMailServiceProvider::class], $config['providers']));
+        $this->app['config']->set('app.providers', array_merge([LLoadout\Microsoftgraph\MailManager\MicrosoftGraphMailServiceProvider::class], $config['providers']));
 
         $this->app->register(EventServiceProvider::class);
-
     }
 }

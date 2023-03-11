@@ -40,13 +40,13 @@ The package provides two oAuth routes
 The first redirects you to the consent screen of Microsoft
 
 ```
-https://your-url.com/graph/connect
+https://your-url.com/microsoft/connect
 ```
 
 The second is the callback url you need to specify in Microsoft Azure Portal app registration
 
 ```
-https://your-url.com/graph/callback
+https://your-url.com/microsoft/callback
 ```
 
 ## If you want to send mail with the package then do this additional steps:

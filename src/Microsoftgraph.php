@@ -2,24 +2,13 @@
 
 namespace LLoadout\Microsoftgraph;
 
-use Illuminate\Http\Request;
-use Laravel\Socialite\Facades\Socialite;
+use LLoadout\Microsoftgraph\Traits\Authenticate;
 use LLoadout\Microsoftgraph\Traits\Mail;
 
 class Microsoftgraph
 {
-    use Mail;
+    use Mail, Authenticate;
 
-    public function connect()
-    {
-        return Socialite::driver('microsoft')->redirect();
-    }
-
-    public function callback(Request $request): void
-    {
-        $user = (array) Socialite::driver('microsoft')->user();
-        $request->session()->put('token', $user['token']);
-    }
 
     public function getAccessToken()
     {

@@ -11,12 +11,12 @@ class MicrosoftgraphServiceProvider extends PackageServiceProvider
     {
         $package->name('microsoftgraph');
 
-        $this->app['router']->get('graph/connect', [
+        $this->app['router']->get('microsoft/connect', [
             'uses' => '\LLoadout\Microsoftgraph\Microsoftgraph@connect',
             'as' => 'graph.connect',
         ])->middleware('web');
 
-        $this->app['router']->get('graph/callback', [
+        $this->app['router']->get('microsoft/callback', [
             'uses' => '\LLoadout\Microsoftgraph\Microsoftgraph@callback',
             'as' => 'graph.callback',
         ])->middleware('web');

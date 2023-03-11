@@ -34,13 +34,13 @@ The first redirects you to the consent screen of Microsoft
 https://your-url.com/microsoft/connect
 ```
 
-The second is the callback url you need to specify in Microsoft Azure Portal app registration
+The second is the callback url you need to specify in Microsoft Azure Portal app registration as redirect uri
 
 ```
 https://your-url.com/microsoft/callback
 ```
 
-The callback will fire an MicrosoftGraphCallbackReceived event , you can add your token store logic in a listener for this event, for example:
+The callback will fire an MicrosoftGraphCallbackReceived event, you can add your token store logic in a listener for this event, for example:
 
 ```
 Event::listen(function (MicrosoftGraphCallbackReceived $event) {

@@ -3,6 +3,7 @@
 namespace LLoadout\Microsoftgraph\Traits;
 
 use Microsoft\Graph\Graph;
+use SplFileObject;
 
 trait Mail
 {

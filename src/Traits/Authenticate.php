@@ -20,9 +20,10 @@ trait Authenticate
 
     public function getAccessToken()
     {
-        if(!session()->has('microsoftgraph-token')){
+        if (! session()->has('microsoftgraph-token')) {
             throw new \Exception('Please create a session variable named microsoftgraph-token with your token as value');
         }
+
         return session('microsoftgraph-token');
     }
 }

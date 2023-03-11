@@ -49,6 +49,14 @@ The second is the callback url you need to specify in Microsoft Azure Portal app
 https://your-url.com/microsoft/callback
 ```
 
+The callback will fire an MicrosoftGraphCallbackReceived event , you can add your token store logic in a listener for this event, for example:
+
+```
+Event::listen(function (MicrosoftGraphCallbackReceived $event) {
+   session(["token" => $event->user['token']]);
+});
+```
+
 ## If you want to send mail with the package then do this additional steps:
 
 Register the mail service provider in app.php

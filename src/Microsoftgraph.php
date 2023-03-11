@@ -8,10 +8,4 @@ use LLoadout\Microsoftgraph\Traits\Mail;
 class Microsoftgraph
 {
     use Mail, Authenticate;
-
-
-    public function getAccessToken()
-    {
-        return session('token');
-    }
 }

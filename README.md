@@ -45,12 +45,12 @@ The callback will fire an MicrosoftGraphCallbackReceived event, you can add your
 ```
 Event::listen(function (MicrosoftGraphCallbackReceived $event) {
     $user = Auth::user();
-    $user->token = $event->user['token'];
+    $user->accessdata = $event->accessData;
     $user->save();
 });
 ```
 
-The package will search for a session variable name `microsoftgraph-token` for establishing the connection.  So please provide this variable with your token as value
+The package will search for a session variable name `microsoftgraph-access-data` for establishing the connection.  So please provide this variable with your accessData as value
 
 ## If you want to send mail with the package then do this additional steps:
 

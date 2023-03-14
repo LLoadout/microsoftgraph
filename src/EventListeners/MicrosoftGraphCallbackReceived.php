@@ -8,7 +8,7 @@ class MicrosoftGraphCallbackReceived
 {
     use Dispatchable;
 
-    public function __construct(public $user)
+    public function __construct(public $accessData)
     {
     }
 }

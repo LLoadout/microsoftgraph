@@ -17,11 +17,11 @@
     ],
     "require": {
         "php": "^8.1",
+        "ext-fileinfo": "*",
         "illuminate/contracts": "^9|^10.0",
         "microsoft/microsoft-graph": "^1.89",
         "socialiteproviders/microsoft": "^4.2",
-        "spatie/laravel-package-tools": "^1.14.0",
-        "ext-fileinfo": "*"
+        "spatie/laravel-package-tools": "^1.14.0"
     },
     "require-dev": {
         "laravel/pint": "^1.0",
@@ -61,8 +61,8 @@
         "laravel": {
             "providers": [
                 "LLoadout\\Microsoftgraph\\MicrosoftgraphServiceProvider",
-                "LLoadout\\Microsoftgraph\\MailManager\\MicrosoftGraphMailServiceProvider"
-
+                "LLoadout\\Microsoftgraph\\Providers\\MicrosoftGraphMailServiceProvider",
+                "LLoadout\\Microsoftgraph\\Providers\\MicrosoftGraphOnedriveServiceProvider"
             ],
             "aliases": {
                 "Microsoftgraph": "LLoadout\\Microsoftgraph\\Facades\\Microsoftgraph"

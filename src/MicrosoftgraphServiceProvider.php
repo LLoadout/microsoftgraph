@@ -24,6 +24,7 @@ class MicrosoftgraphServiceProvider extends PackageServiceProvider
 
         $config = $this->app['config']->get('services', []);
         $this->app['config']->set('services', array_merge(['microsoft' => [
+            'tenant_id' => env('MS_TENANT_ID'),
             'client_id' => env('MS_CLIENT_ID'),
             'client_secret' => env('MS_CLIENT_SECRET'),
             'redirect' => env('MS_REDIRECT_URL'),
@@ -34,8 +35,11 @@ class MicrosoftgraphServiceProvider extends PackageServiceProvider
             'transport' => 'microsoftgraph',
         ]], $config['mailers']));
 
-        $config = $this->app['config']->get('app', []);
-        $this->app['config']->set('app.providers', array_merge([LLoadout\Microsoftgraph\MailManager\MicrosoftGraphMailServiceProvider::class], $config['providers']));
+        $config = $this->app['config']->get('filesystems', []);
+        $this->app['config']->set('filesystems.disks', array_merge(['onedrive' => [
+            'driver' => 'onedrive',
+            'root' => env('MS_ONEDRIVE_ROOT'),
+        ]], $config));
 
         $this->app->register(EventServiceProvider::class);
     }

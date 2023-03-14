@@ -301,7 +301,6 @@ class OnedriveAdapter extends OnedriveUtiltyAdapter implements FilesystemAdapter
     private function buildMetaData(array $result)
     {
         if (!empty($result['file'])) {
-            dd($result);
             return new FileAttributes(
                 $result['name'],
                 $result['size'],

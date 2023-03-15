@@ -35,7 +35,7 @@ class MicrosoftgraphServiceProvider extends PackageServiceProvider
             'transport' => 'microsoftgraph',
         ]], $config['mailers']));
 
-        $config = $this->app['config']->get('filesystems', []);
+        $config = $this->app['config']->get('filesystems.disks', []);
         $this->app['config']->set('filesystems.disks', array_merge(['onedrive' => [
             'driver' => 'onedrive',
             'root' => env('MS_ONEDRIVE_ROOT'),

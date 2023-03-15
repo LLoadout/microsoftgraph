@@ -12,7 +12,7 @@ class Authenticate
 
     public function connect()
     {
-        return Socialite::driver('microsoft')->with(['prompt' => 'consent'])->redirect();
+        return Socialite::driver('microsoft')->with(['scope' => '.default','prompt' => 'consent'])->redirect();
     }
 
     public function callback(): void

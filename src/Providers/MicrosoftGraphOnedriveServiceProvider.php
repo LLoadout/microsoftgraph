@@ -24,7 +24,7 @@ class MicrosoftGraphOnedriveServiceProvider extends ServiceProvider
         Storage::extend('onedrive', function ($app, $config) {
             $graph = (new Graph())->setAccessToken($this->getAccessToken());
 
-            $adapter = new OneDriveAdapter($graph, $config['root'],true);
+            $adapter = new OneDriveAdapter($graph, $config['root'], true);
 
             return new FilesystemAdapter(
                 new Filesystem($adapter, $config),

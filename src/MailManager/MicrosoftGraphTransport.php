@@ -2,7 +2,7 @@
 
 namespace LLoadout\Microsoftgraph\MailManager;
 
-use LLoadout\Microsoftgraph\Microsoftgraph;
+use LLoadout\Microsoftgraph\Mail;
 use Symfony\Component\Mailer\Envelope;
 use Symfony\Component\Mailer\SentMessage;
 use Symfony\Component\Mailer\Transport\TransportInterface;
@@ -12,8 +12,7 @@ class MicrosoftGraphTransport implements TransportInterface
 {
     public function send(RawMessage $message, Envelope $envelope = null): ?SentMessage
     {
-        $graph = app(Microsoftgraph::class);
-        $graph->sendMail($message);
+        app(Mail::class)->sendMail($message);
 
         return new SentMessage($message, $envelope);
     }

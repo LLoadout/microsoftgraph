@@ -1,12 +1,14 @@
 <?php
 
-namespace LLoadout\Microsoftgraph\Traits;
+namespace LLoadout\Microsoftgraph;
 
+use LLoadout\Microsoftgraph\Traits\Authenticate;
 use Microsoft\Graph\Graph;
-use SplFileObject;
 
-trait Mail
+class Mail
 {
+    use Authenticate;
+
     public function sendMail($mailable): void
     {
         $graph = (new Graph())->setAccessToken($this->getAccessToken());

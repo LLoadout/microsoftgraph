@@ -21,10 +21,10 @@ class OnedriveAdapter extends OnedriveUtiltyAdapter implements FilesystemAdapter
 
     public function __construct(Graph $graph, string $prefix = 'root', bool $usePath = true)
     {
-        $this->graph   = $graph;
+        $this->graph = $graph;
         $this->usePath = $usePath;
 
-        $this->setPathPrefix('/' . $prefix . ($this->usePath ? ':' : ''));
+        $this->setPathPrefix('/'.$prefix.($this->usePath ? ':' : ''));
     }
 
     /**
@@ -71,8 +71,7 @@ class OnedriveAdapter extends OnedriveUtiltyAdapter implements FilesystemAdapter
 
     public function read(string $path): string
     {
-
-        if (!$object = $this->readStream($path)) {
+        if (! $object = $this->readStream($path)) {
             return false;
         }
 
@@ -80,6 +79,7 @@ class OnedriveAdapter extends OnedriveUtiltyAdapter implements FilesystemAdapter
 
         fclose($object['stream']);
         unset($object['stream']);
+
         return $object['contents'];
     }
 
@@ -131,19 +131,19 @@ class OnedriveAdapter extends OnedriveUtiltyAdapter implements FilesystemAdapter
      */
     public function createDirectory(string $path, Config $config = null): void
     {
-        $patch  = explode('/', $path);
+        $patch = explode('/', $path);
         $sliced = implode('/', array_slice($patch, 0, -1));
 
         if (empty($sliced) && $this->usePath) {
-            $endpoint = str_replace(':/', '', $this->getPathPrefix()) . '/children';
+            $endpoint = str_replace(':/', '', $this->getPathPrefix()).'/children';
         } else {
-            $endpoint = $this->applyPathPrefix($sliced) . ($this->usePath ? ':' : '') . '/children';
+            $endpoint = $this->applyPathPrefix($sliced).($this->usePath ? ':' : '').'/children';
         }
 
         try {
             $this->graph->createRequest('POST', $endpoint)
                 ->attachBody([
-                    'name'   => end($patch),
+                    'name' => end($patch),
                     'folder' => new ArrayObject(),
                 ])->execute();
         } catch (Exception $e) {
@@ -183,7 +183,6 @@ class OnedriveAdapter extends OnedriveUtiltyAdapter implements FilesystemAdapter
         return $this->getMetadata($path);
     }
 
-
     public function listContents(string $path, bool $deep = true): iterable
     {
         if ($path === '' && $this->usePath) {
@@ -191,7 +190,6 @@ class OnedriveAdapter extends OnedriveUtiltyAdapter implements FilesystemAdapter
         } else {
             $endpoint = $this->applyPathPrefix($path).($this->usePath ? ':' : '').'/children';
         }
-
 
         try {
             $response = $this->graph->createRequest('GET', $endpoint)->execute();
@@ -207,12 +205,9 @@ class OnedriveAdapter extends OnedriveUtiltyAdapter implements FilesystemAdapter
                     yield from $this->listContents($itemName);
                 }
             }
-
         } catch (Exception $e) {
-
         }
     }
-
 
     /**
      * @throws Exception
@@ -230,7 +225,7 @@ class OnedriveAdapter extends OnedriveUtiltyAdapter implements FilesystemAdapter
     {
         $endpoint = $this->applyPathPrefix($source);
 
-        $patch  = explode('/', $destination);
+        $patch = explode('/', $destination);
         $sliced = implode('/', array_slice($patch, 0, -1));
 
         if (empty($sliced) && $this->usePath) {
@@ -238,11 +233,11 @@ class OnedriveAdapter extends OnedriveUtiltyAdapter implements FilesystemAdapter
         }
 
         try {
-            $promise = $this->graph->createRequest('POST', $endpoint . ($this->usePath ? ':' : '') . '/copy')
+            $promise = $this->graph->createRequest('POST', $endpoint.($this->usePath ? ':' : '').'/copy')
                 ->attachBody([
-                    'name'            => $source,
+                    'name' => $source,
                     'parentReference' => [
-                        'path' => $this->getPathPrefix() . (empty($sliced) ? '' : rtrim($sliced, '/') . '/'),
+                        'path' => $this->getPathPrefix().(empty($sliced) ? '' : rtrim($sliced, '/').'/'),
                     ],
                 ])
                 ->executeAsync();
@@ -258,7 +253,7 @@ class OnedriveAdapter extends OnedriveUtiltyAdapter implements FilesystemAdapter
         try {
             $result = Utils::streamFor($contents);
 
-            $this->graph->createRequest('PUT', $path . ($this->usePath ? ':' : '') . '/content')
+            $this->graph->createRequest('PUT', $path.($this->usePath ? ':' : '').'/content')
                 ->attachBody($result)
                 ->execute();
 
@@ -273,13 +268,13 @@ class OnedriveAdapter extends OnedriveUtiltyAdapter implements FilesystemAdapter
         $path = trim($this->removePathPrefix($path), '/');
 
         return [
-            'path'      => empty($path) ? $response['name'] : $path . '/' . $response['name'],
+            'path' => empty($path) ? $response['name'] : $path.'/'.$response['name'],
             'timestamp' => strtotime($response['lastModifiedDateTime']),
-            'size'      => $response['size'],
-            'bytes'     => $response['size'],
-            'type'      => isset($response['file']) ? 'file' : 'dir',
-            'mimetype'  => isset($response['file']) ? $response['file']['mimeType'] : null,
-            'link'      => $response['webUrl'] ?? null,
+            'size' => $response['size'],
+            'bytes' => $response['size'],
+            'type' => isset($response['file']) ? 'file' : 'dir',
+            'mimetype' => isset($response['file']) ? $response['file']['mimeType'] : null,
+            'link' => $response['webUrl'] ?? null,
         ];
     }
 
@@ -289,9 +284,9 @@ class OnedriveAdapter extends OnedriveUtiltyAdapter implements FilesystemAdapter
             $path = $this->applyPathPrefix($path);
 
             $response = $this->graph->createRequest('GET', $path)->execute();
-            $result   = $response->getBody();
+            $result = $response->getBody();
 
-           $this->buildMetaData($result);
+            $this->buildMetaData($result);
         } catch (Exception $e) {
         }
 
@@ -300,7 +295,7 @@ class OnedriveAdapter extends OnedriveUtiltyAdapter implements FilesystemAdapter
 
     private function buildMetaData(array $result)
     {
-        if (!empty($result['file'])) {
+        if (! empty($result['file'])) {
             return new FileAttributes(
                 $result['name'],
                 $result['size'],
@@ -310,9 +305,9 @@ class OnedriveAdapter extends OnedriveUtiltyAdapter implements FilesystemAdapter
                 $result);
         }
 
-        if (!empty($result['folder'])) {
+        if (! empty($result['folder'])) {
             return new DirectoryAttributes(
-               $result['name'],
+                $result['name'],
                 'unsupported',
                 strtotime($result['lastModifiedDateTime']),
                 $result);

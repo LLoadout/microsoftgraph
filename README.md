@@ -76,7 +76,7 @@ MS_ONEDRIVE_ROOT="me/drive/root"
 ```php
 Mail::send(new YourMailable());
 
-Mail::raw('The body of y first test message', function($message) {
+Mail::raw('The body of my first test message', function($message) {
     $message->to('john@doe.com', 'John Doe')->subject('A mail send via lloadout/microsoftgraph');
 });
 ```

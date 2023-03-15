@@ -42,5 +42,9 @@ class MicrosoftgraphServiceProvider extends PackageServiceProvider
         ]], $config));
 
         $this->app->register(EventServiceProvider::class);
+
+        $this->app->bind('teams', function ($app) {
+            return new Teams();
+        });
     }
 }

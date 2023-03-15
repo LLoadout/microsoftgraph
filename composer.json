@@ -65,6 +65,7 @@
                 "LLoadout\\Microsoftgraph\\Providers\\MicrosoftGraphOnedriveServiceProvider"
             ],
             "aliases": {
+                "Teams": "LLoadout\\Microsoftgraph\\Facades\\Teams"
             }
         }
     },

@@ -4,7 +4,7 @@
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/lloadout/microsoftgraph/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/lloadout/microsoftgraph/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/lloadout/microsoftgraph.svg?style=flat-square)](https://packagist.org/packages/lloadout/microsoftgraph)
 
-This package makes it possible to send e-mail via the Microsoft Graph API
+This package makes it possible to send e-mail with Microsoft, use Microsoft Onedrive and send messages via Microsoft Teams, all via the Microsoft Graph API
 
 ## Installation
 
@@ -47,6 +47,12 @@ $disk->put('Test folder/file1.txt','Content of file 1');
 $disk->put('Test folder/file2.txt','Content of file 2');
 #getting files
 Storage::disk('onedrive')->get('Test folder/file1.txt');
+```
+
+## Teams usage
+
+```php 
+Teams::send('your-channel-id','Hello world!');
 ```
 
 ## Connect your account

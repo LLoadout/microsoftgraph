@@ -76,7 +76,7 @@ Event::listen(function (MicrosoftGraphCallbackReceived $event) {
 ```
 
 The package will search for a session variable name `microsoftgraph-access-data` for establishing the connection.  So please provide this variable with your accessData as value when logging in.
-For example:  On login, you get your accesData from the database and store it into `microsoftgraph-access-data`.
+For example:  On login, you get your accesData from the database and store it into the session variable `microsoftgraph-access-data`.
 
 ## If you want to send mail with the package then do this additional steps:
 

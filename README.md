@@ -14,7 +14,8 @@ You can install the package via composer:
 composer require lloadout/microsoftgraph
 ```
 
-add this to your .env file and fill it with the values you specified in Microsoft Azure Portal app registration
+add this to your .env file and fill it with the values you specified in Microsoft Azure Portal app registration.
+You have to provide this API permissions: for mail: `Mail.send`, for files: `Files.ReadWrite.all`, for Teams Chat: `Chat.ReadWrite`.
 
 ```
 MS_TENANT_ID=

@@ -24,6 +24,31 @@ MS_GRAPH_API_VERSION=v1.0
 MS_REDIRECT_URL=
 ```
 
+## Mail usage
+
+```php
+Mail::send(new YourMailable());
+
+Mail::raw('The body of my first test message', function($message) {
+    $message->to('john@doe.com', 'John Doe')->subject('A mail send via lloadout/microsoftgraph');
+});
+```
+
+## Storage usage
+
+The package created a disk called `onedrive`
+
+```php
+$disk = Storage::disk('onedrive');
+#create a dir
+$disk->makeDirectory('Test folder');
+#storing files
+$disk->put('Test folder/file1.txt','Content of file 1');
+$disk->put('Test folder/file2.txt','Content of file 2');
+#getting files
+Storage::disk('onedrive')->get('Test folder/file1.txt');
+```
+
 ## Connect your account
 
 The package provides two oAuth routes
@@ -51,7 +76,7 @@ Event::listen(function (MicrosoftGraphCallbackReceived $event) {
 ```
 
 The package will search for a session variable name `microsoftgraph-access-data` for establishing the connection.  So please provide this variable with your accessData as value when logging in.
-For example:  On login, you get your accesData from the database and store it into `microsoftgraph-access-data`.
+For example:  On login, you get your accesData from the database and store it into the session variable `microsoftgraph-access-data`.
 
 ## If you want to send mail with the package then do this additional steps:
 
@@ -71,30 +96,6 @@ add the onedrive root to your .env file:
 MS_ONEDRIVE_ROOT="me/drive/root"
 ```
 
-## Mail usage
-
-```php
-Mail::send(new YourMailable());
-
-Mail::raw('The body of y first test message', function($message) {
-    $message->to('john@doe.com', 'John Doe')->subject('A mail send via lloadout/microsoftgraph');
-});
-```
-
-## Storage usage
-
-The package created a disk called `onedrive`
-
-```php
-$disk = Storage::disk('onedrive');
-#create a dir
-$disk->makeDirectory('Test folder');
-#storing files
-$disk->put('Test folder/file1.txt','Content of file 1');
-$disk->put('Test folder/file2.txt','Content of file 2');
-#getting files
-Storage::disk('onedrive')->get('Test folder/file1.txt');
-```
 ## Testing
 
 ```bash

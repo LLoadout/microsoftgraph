@@ -25,7 +25,7 @@ MS_TENANT_ID=
 MS_CLIENT_ID=
 MS_CLIENT_SECRET=
 MS_GRAPH_API_VERSION=v1.0
-MS_REDIRECT_URL=
+MS_REDIRECT_URL=https://your-url.com/microsoft/callback
 ```
 
 ## Mail usage

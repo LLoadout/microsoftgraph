@@ -1,7 +1,10 @@
+<p align="center">
+    <img src="https://github.com/LLoadout/assets/blob/master/LLoadout_microsoftgraph.png" width="500" title="LLoadout logo">
+</p>
+
 # Laravel package for using Microsoft Graph API
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/lloadout/microsoftgraph.svg?style=flat-square)](https://packagist.org/packages/lloadout/microsoftgraph)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/lloadout/microsoftgraph/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/lloadout/microsoftgraph/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/lloadout/microsoftgraph.svg?style=flat-square)](https://packagist.org/packages/lloadout/microsoftgraph)
 
 This package makes it possible to send e-mail with Microsoft, use Microsoft Onedrive and send messages via Microsoft Teams, all via the Microsoft Graph API
@@ -22,7 +25,7 @@ MS_TENANT_ID=
 MS_CLIENT_ID=
 MS_CLIENT_SECRET=
 MS_GRAPH_API_VERSION=v1.0
-MS_REDIRECT_URL=
+MS_REDIRECT_URL=https://your-url.com/microsoft/callback
 ```
 
 ## Mail usage

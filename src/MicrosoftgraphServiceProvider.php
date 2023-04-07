@@ -46,5 +46,9 @@ class MicrosoftgraphServiceProvider extends PackageServiceProvider
         $this->app->bind('teams', function ($app) {
             return new Teams();
         });
+
+        $this->app->bind('excel', function ($app) {
+            return new Excel();
+        });
     }
 }

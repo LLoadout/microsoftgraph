@@ -25,11 +25,12 @@ class Excel
         $this->graph = $graph;
     }
 
-    public function setCellValue($cell, $value)
+    public function setCellValues($cell, $values)
     {
         $url = '/me/drive/items/'.$this->fileId.'/workbook/worksheets/{00000000-0001-0000-0000-000000000000}/range(address=\''.$cell.'\')';
-        $this->graph->createRequest('patch', $url)->addHeaders(['workbook-session-id' => $this->excelSession])->attachBody(['values' => [[$value]]])->execute();
+        $this->graph->createRequest('patch', $url)->addHeaders(['workbook-session-id' => $this->excelSession])->attachBody(['values' => $values])->execute();
     }
+
 
     public function getCell($cell)
     {

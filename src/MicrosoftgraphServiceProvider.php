@@ -44,11 +44,11 @@ class MicrosoftgraphServiceProvider extends PackageServiceProvider
         $this->app->register(EventServiceProvider::class);
 
         $this->app->bind('teams', function ($app) {
-            return new Teams();
+            return new \LLoadout\Microsoftgraph\Teams();
         });
 
         $this->app->bind('excel', function ($app) {
-            return new Excel();
+            return new \LLoadout\Microsoftgraph\Excel();
         });
     }
 }

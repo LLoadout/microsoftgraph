@@ -7,7 +7,11 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/lloadout/microsoftgraph.svg?style=flat-square)](https://packagist.org/packages/lloadout/microsoftgraph)
 [![Total Downloads](https://img.shields.io/packagist/dt/lloadout/microsoftgraph.svg?style=flat-square)](https://packagist.org/packages/lloadout/microsoftgraph)
 
-This package makes it possible to send e-mail with Microsoft, use Microsoft Onedrive and send messages via Microsoft Teams, all via the Microsoft Graph API
+This package makes it possible to send e-mail with Microsoft, use Microsoft Onedrive and send messages via Microsoft Teams, all via the Microsoft Graph API.
+
+You need to register an app in the Microsoft Azure Portal to use this package. Follow the steps in the Microsoft docs:
+https://docs.microsoft.com/en-us/graph/auth-register-app-v2
+
 
 ## Installation
 
@@ -40,7 +44,7 @@ Mail::raw('The body of my first test message', function($message) {
 
 ## Storage usage
 
-The package created a disk called `onedrive`
+The package created a disk called `onedrive` and uses the `local` driver as underlying disk. This means that you can use all the methods as described in the Laravel docs: https://laravel.com/docs/8.x/filesystem#configuration
 
 ```php
 $disk = Storage::disk('onedrive');
@@ -60,7 +64,12 @@ Get all the teams you are a member of
 $joinedTeams = Teams::getJoinedTeams();
 ```
 
-Get all the channels in a team
+Get alle the channels for a team
+```php
+$channels = Teams::getChannels($team);
+```
+
+Get all the chats for a user
 ```php
 $chats = Teams::getChats(); 
 ```

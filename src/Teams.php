@@ -34,7 +34,7 @@ class Teams
 
     public function getChannels($team): array
     {
-        return $this->graph()->createRequest('GET', '/teams/'.$team.'/channels')->execute()->getBody();
+        return $this->graph()->createRequest('GET', '/teams/'.$team['id'].'/channels')->execute()->getBody()['value'];
     }
     public function send($chat, $messsage): array
     {

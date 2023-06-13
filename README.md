@@ -55,8 +55,24 @@ Storage::disk('onedrive')->get('Test folder/file1.txt');
 
 ## Teams usage
 
-```php 
-Teams::send('your-channel-id','Hello world!');
+Get all the teams you are a member of
+```php
+$joinedTeams = Teams::getJoinedTeams();
+```
+
+Get all the channels in a team
+```php
+$chats = Teams::getChats(); 
+```
+
+Get all the members in a channel
+```php
+$members = Teams::getMembersInChat($chat));
+````
+
+Send a message to a channel
+```php   
+Teams::send($teamOrChat,'Hello world!');
 ```
 
 ## Connect your account

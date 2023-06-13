@@ -12,7 +12,7 @@ class Teams
     {
         return (new Graph())->setAccessToken($this->getAccessToken());
     }
-    public function getTeams(): array
+    public function getJoinedTeams(): array
     {
         return $this->graph()->createRequest('GET', '/me/joinedTeams')->execute()->getBody()['value'];
     }

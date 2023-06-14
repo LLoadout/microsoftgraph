@@ -12,6 +12,16 @@ class MicrosoftgraphServiceProvider extends PackageServiceProvider
     {
         $package->name('microsoftgraph');
 
+        $this->buildRoutes();
+        $this->buildConfigs();
+        $this->buildFacades();
+
+        $this->app->register(EventServiceProvider::class);
+
+    }
+
+    private function buildRoutes()
+    {
         $this->app['router']->get('microsoft/connect', [
             'uses' => '\LLoadout\Microsoftgraph\Authenticate@connect',
             'as' => 'graph.connect',
@@ -21,27 +31,39 @@ class MicrosoftgraphServiceProvider extends PackageServiceProvider
             'uses' => '\LLoadout\Microsoftgraph\Authenticate@callback',
             'as' => 'graph.callback',
         ])->middleware('web');
+    }
 
+    private function buildConfigs()
+    {
         $config = $this->app['config']->get('services', []);
-        $this->app['config']->set('services', array_merge(['microsoft' => [
-            'tenant_id' => env('MS_TENANT_ID'),
-            'client_id' => env('MS_CLIENT_ID'),
-            'client_secret' => env('MS_CLIENT_SECRET'),
-            'redirect' => env('MS_REDIRECT_URL'),
-        ]], $config));
+        $this->app['config']->set('services', array_merge([
+            'microsoft' => [
+                'tenant_id' => env('MS_TENANT_ID'),
+                'client_id' => env('MS_CLIENT_ID'),
+                'client_secret' => env('MS_CLIENT_SECRET'),
+                'redirect' => env('MS_REDIRECT_URL'),
+            ],
+        ], $config));
 
         $config = $this->app['config']->get('mail', []);
-        $this->app['config']->set('mail.mailers', array_merge(['microsoftgraph' => [
-            'transport' => 'microsoftgraph',
-        ]], $config['mailers']));
+        $this->app['config']->set('mail.mailers', array_merge([
+            'microsoftgraph' => [
+                'transport' => 'microsoftgraph',
+            ],
+        ], $config['mailers']));
 
         $config = $this->app['config']->get('filesystems.disks', []);
-        $this->app['config']->set('filesystems.disks', array_merge(['onedrive' => [
-            'driver' => 'onedrive',
-            'root' => env('MS_ONEDRIVE_ROOT'),
-        ]], $config));
+        $this->app['config']->set('filesystems.disks', array_merge([
+            'onedrive' => [
+                'driver' => 'onedrive',
+                'root' => env('MS_ONEDRIVE_ROOT'),
+            ],
+        ], $config));
 
-        $this->app->register(EventServiceProvider::class);
+    }
+
+    private function buildFacades()
+    {
 
         $this->app->bind('teams', function ($app) {
             return new \LLoadout\Microsoftgraph\Teams();

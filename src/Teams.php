@@ -2,44 +2,70 @@
 
 namespace LLoadout\Microsoftgraph;
 
-use Microsoft\Graph\Graph;
+use LLoadout\Microsoftgraph\Traits\Authenticate;
+use LLoadout\Microsoftgraph\Traits\Connect;
 
 class Teams
 {
-    use \LLoadout\Microsoftgraph\Traits\Authenticate;
+    use Connect,
+        Authenticate;
 
-    public function graph(): Graph
-    {
-        return (new Graph())->setAccessToken($this->getAccessToken());
-    }
+    /**
+     * Get all teams that you have joined
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Microsoft\Graph\Exception\GraphException
+     */
     public function getJoinedTeams(): array
     {
-        return $this->graph()->createRequest('GET', '/me/joinedTeams')->execute()->getBody()['value'];
+        return $this->get('/me/joinedTeams');
     }
 
+    /**
+     * Get all the chats that you have
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Microsoft\Graph\Exception\GraphException
+     */
     public function getChats(): array
     {
-        return $this->graph()->createRequest('GET', '/me/chats')->execute()->getBody()['value'];
+        return $this->get('/me/chats');
     }
 
+    /**
+     * Get all the members in a chat
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Microsoft\Graph\Exception\GraphException
+     */
     public function getMembersInChat($chat): array
     {
-        return $this->graph()->createRequest('GET', '/chats/'.$chat['id'].'/members')->execute()->getBody()['value'];
+        return $this->get('/chats/'.$chat['id'].'/members');
     }
 
-    public function getContacts(): array
-    {
-        return $this->graph()->createRequest('GET', '/me/contacts')->execute()->getBody();
-    }
-
+    /**
+     * Get all the channels in a team
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Microsoft\Graph\Exception\GraphException
+     */
     public function getChannels($team): array
     {
-        return $this->graph()->createRequest('GET', '/teams/'.$team['id'].'/channels')->execute()->getBody()['value'];
+        return $this->get('/teams/'.$team['id'].'/channels');
     }
-    public function send($chat, $messsage): array
-    {
-        $data = json_decode('{"body": {"contentType": "html","content": "'.$messsage.'"}}');
 
-        return $this->graph()->createRequest('POST', '/chats/'.$chat['id'].'/messages')->attachBody($data)->execute()->getBody();
+    /**
+     * Send a message to a chat
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Microsoft\Graph\Exception\GraphException
+     */
+    public function send($chat, $message): array
+    {
+
+        $data = json_decode('{"body": {"contentType": "html"}}');
+        $data->body->content = $message;
+
+        return $this->post('/chats/'.$chat['id'].'/messages', $data);
     }
 }

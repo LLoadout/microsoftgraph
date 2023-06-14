@@ -3,16 +3,15 @@
 namespace LLoadout\Microsoftgraph;
 
 use LLoadout\Microsoftgraph\Traits\Authenticate;
-use Microsoft\Graph\Graph;
+use LLoadout\Microsoftgraph\Traits\Connect;
 
 class Mail
 {
-    use Authenticate;
+    use Authenticate, Connect;
 
     public function sendMail($mailable): void
     {
-        $graph = (new Graph())->setAccessToken($this->getAccessToken());
-        $graph->createRequest('POST', '/me/sendMail')->attachBody($this->getBody($mailable))->execute();
+        $this->post('/me/sendMail', $this->getBody($mailable));
     }
 
     protected function getBody($mailable)

@@ -2,70 +2,92 @@
 
 namespace LLoadout\Microsoftgraph;
 
-use Microsoft\Graph\Graph;
+use LLoadout\Microsoftgraph\Traits\Authenticate;
+use LLoadout\Microsoftgraph\Traits\Connect;
 
 class Excel
 {
-    use \LLoadout\Microsoftgraph\Traits\Authenticate;
+    use Connect,
+        Authenticate;
 
-    private string $fileId;
+    private string $fileId = '';
 
-    private Graph  $graph;
-
-    private mixed  $excelSession;
+    private string $excelSession = '';
 
     /**
-     * Load an excel file from onedrive
-     * @param $file
+     * Load an excel file from a onedrive file
+     *
      * @return void
+     *
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Microsoft\Graph\Exception\GraphException
      */
     public function loadFile($file)
     {
-        $graph = (new Graph())->setAccessToken($this->getAccessToken());
-        $this->fileId = json_decode($file)->id;
+        $this->loadFileById(json_decode($file)->id);
+    }
 
-        $request = $graph->createRequest('post', '/me/drive/items/'.$this->fileId.'/workbook/createSession');
-        $session = $request->execute()->getBody();
-        $this->excelSession = $session['id'];
-        $this->graph = $graph;
+    public function loadFileById($fileId)
+    {
+        $this->fileId = $fileId;
+        if (blank($this->excelSession)) {
+            $this->excelSession = $this->createSession($fileId);
+        }
     }
 
     /**
-     * set the values of a cell or range of cells
-     * @param $cell
-     * @param $values
+     * Set the values of a cell or range of cells
+     *
      * @return void
+     *
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Microsoft\Graph\Exception\GraphException
      */
-    public function setCellValues($cell, $values)
+    public function setCellValues($cellRang, array $values)
     {
-        $url = '/me/drive/items/'.$this->fileId.'/workbook/worksheets/{00000000-0001-0000-0000-000000000000}/range(address=\''.$cell.'\')';
-        $this->graph->createRequest('patch', $url)->addHeaders(['workbook-session-id' => $this->excelSession])->attachBody(['values' => $values])->execute();
+        $values = array_values(collect($values)->map(function ($value, $key) {
+            return [$value];
+        })->toArray());
+
+        $url = '/me/drive/items/'.$this->fileId.'/workbook/worksheets/{00000000-0001-0000-0000-000000000000}/range(address=\''.$cellRang.'\')';
+        $this->connect()->createRequest('PATCH', $url)->addHeaders(['workbook-session-id' => $this->excelSession])->attachBody(['values' => $values])->execute();
     }
 
     /**
-     * get the values of a cell or range of cells
-     * @param $cell
+     * Set the values of a cell or range of cells
+     *
      * @return array
+     *
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Microsoft\Graph\Exception\GraphException
      */
-    public function getCell($cell)
+    public function getCellValues($cellRange)
     {
-        $url = '/me/drive/items/'.$this->fileId.'/workbook/worksheets/{00000000-0001-0000-0000-000000000000}/range(address=\''.$cell.'\')';
-        return $this->graph->createRequest('get', $url)->addHeaders(['workbook-session-id' => $this->excelSession])->execute()->getBody();
+        $url = '/me/drive/items/'.$this->fileId.'/workbook/worksheets/{00000000-0001-0000-0000-000000000000}/range(address=\''.$cellRange.'\')';
+
+        return $this->connect()->createRequest('GET', $url)->addHeaders(['workbook-session-id' => $this->excelSession])->execute()->getBody();
     }
 
     /**
      * Calculate the workbook
+     *
      * @return void
      */
     public function recalculate()
     {
-        $url = config('services.office.api_url').'/me/drive/items/'.$this->fileId.'/workbook/application/calculate';
-        $this->doPost('post', $url, []);
+        $url = '/me/drive/items/'.$this->fileId.'/workbook/application/calculate';
+
+        return $this->connect()->createRequest('GET', $url)->execute()->getBody();
+    }
+
+    /**
+     * Create a session for the excel file
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Microsoft\Graph\Exception\GraphException
+     */
+    private function createSession($fileId): string
+    {
+        return $this->connect()->createRequest('POST', '/me/drive/items/'.$fileId.'/workbook/createSession')->execute()->getBody()['id'];
     }
 }

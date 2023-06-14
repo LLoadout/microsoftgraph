@@ -7,8 +7,8 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/lloadout/microsoftgraph.svg?style=flat-square)](https://packagist.org/packages/lloadout/microsoftgraph)
 [![Total Downloads](https://img.shields.io/packagist/dt/lloadout/microsoftgraph.svg?style=flat-square)](https://packagist.org/packages/lloadout/microsoftgraph)
 
-This package makes a wrapper around the Microsoft Graph API. It provides a mail driver (send mails via office365) and a storage driver (use OneDrive as a Laravel disk). It also gives the ability to easily interact with Microsoft teams.
-This package also provides the possibliity to work with Excel files loaded from OneDrive, making it possible to write and read Excel files.
+This package makes a wrapper around the Microsoft Graph API. It provides a [Mail](#mail-usage) driver (send mails via office365) and a storage driver (use [OneDrive](#storage-usage) as a Laravel disk). It also gives the ability to easily interact with Microsoft [Teams](#teams-usage).
+This package also provides the possibliity to work with [Excel](#excel-usage) files loaded from Onedrive, making it possible to write and read Excel files.
 
 You need to register an app in the Microsoft Azure Portal to use this package. Follow the steps in the Microsoft docs:
 https://docs.microsoft.com/en-us/graph/auth-register-app-v2

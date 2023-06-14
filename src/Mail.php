@@ -76,7 +76,7 @@ class Mail
         $collection = [];
 
         foreach ($attachments as $file) {
-            $file = new SplFileObject($file['file'], 'r');
+            $file = new \SplFileObject($file['file'], 'r');
             $body = $file->fread($file->getSize());
             $imgdata = base64_decode($body);
             $f = finfo_open();

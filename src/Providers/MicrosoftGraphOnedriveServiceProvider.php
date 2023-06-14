@@ -6,7 +6,7 @@ use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 use League\Flysystem\Filesystem;
-use LLoadout\Microsoftgraph\OnedriveManager\OneDriveAdapter;
+use LLoadout\Microsoftgraph\OnedriveManager\OnedriveAdapter;
 use LLoadout\Microsoftgraph\Traits\Authenticate;
 use Microsoft\Graph\Graph;
 
@@ -24,7 +24,7 @@ class MicrosoftGraphOnedriveServiceProvider extends ServiceProvider
         Storage::extend('onedrive', function ($app, $config) {
             $graph = (new Graph())->setAccessToken($this->getAccessToken());
 
-            $adapter = new OneDriveAdapter($graph, $config['root'], true);
+            $adapter = new OnedriveAdapter($graph, $config['root'], true);
 
             return new FilesystemAdapter(
                 new Filesystem($adapter, $config),

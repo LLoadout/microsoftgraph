@@ -131,8 +131,6 @@ First instantiate the Teams class
 $teamsClass = new Teams();
 ```
 
-Get alle the teams you have joined
-
 Get all the teams you are a member of ( additional permissions needed: `Group.Read.All` )
 
 ```php

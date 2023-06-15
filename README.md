@@ -9,10 +9,10 @@
 
 This package makes a wrapper around the Microsoft Graph API.
 
-1. It provides a [Mail](#mail-usage) driver (send mails via office365)
-2. It provides a storage driver (use [OneDrive](#storage-usage) as a Laravel disk).
-3. It also gives the ability to easily interact with Microsoft [Teams](#teams-usage).
-4. This package also provides the possibility to work with [Excel](#excel-usage) files loaded from Onedrive, making it possible to write and read Excel files.
+1. It provides a [Mail](#mail-usage) driver for Microft mail.
+2. It provides a storage driver for [OneDrive](#storage-usage).
+3. It provides functionality to interacti with Microsoft [Teams](#teams-usage).
+4. It provides the possibility to work with [Excel](#excel-usage), making it possible to write and read Excel files.
 5. It allows you to manage [calendar](#calendar-usage) events.
 6. It allows you to manage contacts [contact](#contact-usage).
 

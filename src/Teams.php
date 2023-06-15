@@ -49,12 +49,12 @@ class Teams
     /**
      * Send a message to a chat
      */
-    public function send(Chat $chat, string $message): array
+    public function send(Chat|Channel $chat, string $message): array
     {
 
         $data = json_decode('{"body": {"contentType": "html"}}');
         $data->body->content = $message;
 
-        return $this->post('/chats/'.$chat['id'].'/messages', $data);
+        return $this->post('/chats/'.$chat->getId().'/messages', $data);
     }
 }

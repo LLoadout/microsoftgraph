@@ -7,8 +7,14 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/lloadout/microsoftgraph.svg?style=flat-square)](https://packagist.org/packages/lloadout/microsoftgraph)
 [![Total Downloads](https://img.shields.io/packagist/dt/lloadout/microsoftgraph.svg?style=flat-square)](https://packagist.org/packages/lloadout/microsoftgraph)
 
-This package makes a wrapper around the Microsoft Graph API. It provides a [Mail](#mail-usage) driver (send mails via office365) and a storage driver (use [OneDrive](#storage-usage) as a Laravel disk). It also gives the ability to easily interact with Microsoft [Teams](#teams-usage).
-This package also provides the possibliity to work with [Excel](#excel-usage) files loaded from Onedrive, making it possible to write and read Excel files.
+This package makes a wrapper around the Microsoft Graph API.
+
+1. It provides a [Mail](#mail-usage) driver (send mails via office365)
+2. It provides a storage driver (use [OneDrive](#storage-usage) as a Laravel disk).
+3. It also gives the ability to easily interact with Microsoft [Teams](#teams-usage).
+4. This package also provides the possibility to work with [Excel](#excel-usage) files loaded from Onedrive, making it possible to write and read Excel files.
+5. It allows you to manage [calendar](#calendar-usage) events.
+6. It allows you to manage contacts [contact](#contact-usage).
 
 You need to register an app in the Microsoft Azure Portal to use this package. Follow the steps in the Microsoft docs:
 https://docs.microsoft.com/en-us/graph/auth-register-app-v2
@@ -59,7 +65,6 @@ Event::listen(function (MicrosoftGraphCallbackReceived $event) {
 
 The package will search for a session variable name `microsoftgraph-access-data` for establishing the connection. So please provide this variable with your accessData as value when logging in.
 For example:  On login, you get your accesData from the database and store it into the session variable `microsoftgraph-access-data`.
-
 
 ## Mail usage
 
@@ -168,6 +173,48 @@ Load a file by its id
 
 ```php
 Excel::loadFileById($fileId);
+```
+
+## Calendar usage
+
+### Configuration
+
+You have to provide this API permissions: `Calendars.ReadWrite`
+
+### Usage
+
+Get all the calendars
+
+```php
+$calendars = Calendar::getCalendars();
+``` 
+
+Get all the events for a calendar
+
+```php
+$events = Calendar::getCalendarEvents($calendar);
+```
+
+Save an event to a calendar, the event object is a MicrosoftGraphEvent object
+We made a helper function to create an event object `Calendar::makeEvent(string $starttime, string $endtime, string $timezone, string $subject, string $body, array $attendees = [], bool $isOnlineMeeting = false)`
+
+
+```php
+Calendar::saveEvent($calendar, $event);
+```
+
+## Contacts usage
+
+### Configuration
+
+You have to provide this API permissions: `Contacts.ReadWrite`
+
+### Usage
+
+Get all the contacts
+
+```php
+$contacts = Contacts::getContacts();
 ```
 
 ## Testing

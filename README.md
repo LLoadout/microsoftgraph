@@ -133,6 +133,8 @@ First instantiate the Teams class
 $teamsClass = new Teams();
 ```
 
+Get alle the teams you have joined
+
 ```php
 $joinedTeams = $teamsClass->getJoinedTeams();
 ```

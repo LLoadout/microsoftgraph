@@ -125,15 +125,15 @@ You have to provide this API permissions: `Chat.ReadWrite`
 
 ### Usage
 
-Get all the teams you are a member of ( additional permissions needed: `Group.Read.All` )
-
-First instantiate the Teams class
+First instantiate the Teams class 
 
 ```php
 $teamsClass = new Teams();
 ```
 
 Get alle the teams you have joined
+
+Get all the teams you are a member of ( additional permissions needed: `Group.Read.All` )
 
 ```php
 $joinedTeams = $teamsClass->getJoinedTeams();
@@ -171,13 +171,13 @@ You have to provide this API permissions: `Files.ReadWrite.all`
 
 ### Usage
 
-Load a file from OneDrive
-
 First instantiate the Excel class
 
 ```php
 $excelClass = new Excel();
 ```
+
+Load a file from OneDrive
 
 ```php
 $excelClass->loadFile('Test folder/file1.xlsx');
@@ -205,13 +205,13 @@ You have to provide this API permissions: `Calendars.ReadWrite`
 
 ### Usage
 
-Get all the calendars
-
 First instantiate the Calendar class
 
 ```php
 $calendarClass = new Calendar();
 ```
+
+Get all the calendars
 
 ```php
 $calendars = $calendarClass->getCalendars();
@@ -238,13 +238,13 @@ You have to provide this API permissions: `Contacts.ReadWrite`
 
 ### Usage
 
-Get all the contacts
-
 First instantiate the Contacts class
 
 ```php
 $contactsClass = new Contacts();
 ```
+
+Get all the contacts
 
 ```php
 $contacts = $contactsClass->getContacts();

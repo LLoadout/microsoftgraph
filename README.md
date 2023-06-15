@@ -127,32 +127,38 @@ You have to provide this API permissions: `Chat.ReadWrite`
 
 Get all the teams you are a member of ( additional permissions needed: `Group.Read.All` )
 
+First instantiate the Teams class
+
 ```php
-$joinedTeams = Teams::getJoinedTeams();
+$teamsClass = new Teams();
+```php
+
+```php
+$joinedTeams = $teamsClass->getJoinedTeams();
 ```
 
 Get alle the channels for a team ( additional permissions needed: `Group.Read.All` )
 
 ```php
-$channels = Teams::getChannels($team);
+$channels = $teamsClass->getChannels($team);
 ```
 
 Get all the chats for a user ( additional permissions needed: `Chat.Read.All` )
 
 ```php
-$chats = Teams::getChats(); 
+$chats = $teamsClass->getChats(); 
 ```
 
 Get all the members in a channel ( additional permissions needed: `ChannelMessage.Read.All` )
 
 ```php
-$members = Teams::getMembersInChat($chat));
+$members = $teamsClass->getMembersInChat($chat));
 ````
 
 Send a message to a channel ( additional permissions needed: `ChannelMessage.Send` )
 
 ```php 
-Teams::send($teamOrChat,'Hello world!');
+$teamsClass->send($teamOrChat,'Hello world!');
 ```
 
 ## Excel usage
@@ -165,14 +171,28 @@ You have to provide this API permissions: `Files.ReadWrite.all`
 
 Load a file from OneDrive
 
+First instantiate the Excel class
+
 ```php
-Excel::loadFile('Test folder/file1.xlsx');
+$excelClass = new Excel();
+```
+
+```php
+$excelClass->loadFile('Test folder/file1.xlsx');
 ```          
 
 Load a file by its id
 
 ```php
-Excel::loadFileById($fileId);
+$excelClass->loadFileById($fileId);
+```
+
+Set cell values of a range
+
+```php
+$values = ['B1' => null, 'B2' => '01.01.23', 'B3' => 3, 'B4' => '250', 'B5' => '120', 'B6' => '30 cm', 'B7' => null, 'B8' => null, 'B9' => null, 'B10' => null, 'B11' => null, 'B12' => 2];
+$excelClass->setCellValues('B1:B12', $values);
+$excelClass->getCellValues('H1:H20');
 ```
 
 ## Calendar usage
@@ -185,22 +205,27 @@ You have to provide this API permissions: `Calendars.ReadWrite`
 
 Get all the calendars
 
+First instantiate the Calendar class
+
 ```php
-$calendars = Calendar::getCalendars();
+$calendarClass = new Calendar();
+```
+
+```php
+$calendars = $calendarClass->getCalendars();
 ``` 
 
 Get all the events for a calendar
 
 ```php
-$events = Calendar::getCalendarEvents($calendar);
+$events = $calendarClass->getCalendarEvents($calendar);
 ```
 
 Save an event to a calendar, the event object is a MicrosoftGraphEvent object
 We made a helper function to create an event object `Calendar::makeEvent(string $starttime, string $endtime, string $timezone, string $subject, string $body, array $attendees = [], bool $isOnlineMeeting = false)`
 
-
 ```php
-Calendar::saveEvent($calendar, $event);
+$calendarClass->saveEvent($calendar, $event);
 ```
 
 ## Contacts usage
@@ -213,8 +238,14 @@ You have to provide this API permissions: `Contacts.ReadWrite`
 
 Get all the contacts
 
+First instantiate the Contacts class
+
 ```php
-$contacts = Contacts::getContacts();
+$contactsClass = new Contacts();
+```
+
+```php
+$contacts = $contactsClass->getContacts();
 ```
 
 ## Testing

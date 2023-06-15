@@ -18,6 +18,6 @@ class Contacts
      */
     public function getContacts(): array
     {
-        return $this->get('/me/contacts', returns: Contact::class);
+        return self::get('/me/contacts', returns: Contact::class);
     }
 }

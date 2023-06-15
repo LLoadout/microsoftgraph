@@ -9,7 +9,7 @@ use LLoadout\Microsoftgraph\EventListeners\MicrosoftGraphCallbackReceived;
 
 trait Authenticate
 {
-    public function refreshAccessToken($refreshtoken): void
+    private function refreshAccessToken($refreshtoken): void
     {
         $tokenData = Http::asForm()->post('https://login.microsoftonline.com/'.config('services.microsoft.tenant_id').'/oauth2/token', $this->getRefreshFields($refreshtoken))->object();
         $this->dispatchCallbackReceived($tokenData);
@@ -21,7 +21,7 @@ trait Authenticate
         MicrosoftGraphCallbackReceived::dispatch(encrypt((object) ['user' => $user, 'expires_on' => $tokenData->expires_on, 'access_token' => $tokenData->access_token, 'refresh_token' => $tokenData->refresh_token]));
     }
 
-    public function getAccessToken()
+    private function getAccessToken()
     {
         if (! session()->has('microsoftgraph-access-data')) {
             throw new \Exception('Please create a session variable named microsoftgraph-access-data with your access data as value');

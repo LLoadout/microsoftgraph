@@ -27,7 +27,7 @@
         "laravel/pint": "^1.10",
         "nunomaduro/larastan": "^2.0",
             "orchestra/testbench": "^6.15|^8.0"
-        
+
     },
     "autoload": {
         "psr-4": {
@@ -56,11 +56,7 @@
                 "LLoadout\\Microsoftgraph\\MicrosoftgraphServiceProvider",
                 "LLoadout\\Microsoftgraph\\Providers\\MicrosoftGraphMailServiceProvider",
                 "LLoadout\\Microsoftgraph\\Providers\\MicrosoftGraphOnedriveServiceProvider"
-            ],
-            "aliases": {
-                "Teams": "LLoadout\\Microsoftgraph\\Facades\\Teams",
-                "Excel": "LLoadout\\Microsoftgraph\\Facades\\Excel"
-            }
+            ]
         }
     },
     "minimum-stability": "dev",

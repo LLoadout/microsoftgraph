@@ -131,7 +131,7 @@ First instantiate the Teams class
 
 ```php
 $teamsClass = new Teams();
-```php
+```
 
 ```php
 $joinedTeams = $teamsClass->getJoinedTeams();
@@ -153,7 +153,7 @@ Get all the members in a channel ( additional permissions needed: `ChannelMessag
 
 ```php
 $members = $teamsClass->getMembersInChat($chat));
-````
+```
 
 Send a message to a channel ( additional permissions needed: `ChannelMessage.Send` )
 

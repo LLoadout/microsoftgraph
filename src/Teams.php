@@ -4,6 +4,10 @@ namespace LLoadout\Microsoftgraph;
 
 use LLoadout\Microsoftgraph\Traits\Authenticate;
 use LLoadout\Microsoftgraph\Traits\Connect;
+use Microsoft\Graph\Model\Channel;
+use Microsoft\Graph\Model\Chat;
+use Microsoft\Graph\Model\ConversationMember;
+use Microsoft\Graph\Model\Team;
 
 class Teams
 {
@@ -12,55 +16,40 @@ class Teams
 
     /**
      * Get all teams that you have joined
-     *
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \Microsoft\Graph\Exception\GraphException
      */
     public function getJoinedTeams(): array
     {
-        return $this->get('/me/joinedTeams');
+        return $this->get('/me/joinedTeams', returns: Team::class);
     }
 
     /**
      * Get all the chats that you have
-     *
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \Microsoft\Graph\Exception\GraphException
      */
     public function getChats(): array
     {
-        return $this->get('/me/chats');
+        return $this->get('/me/chats', returns: Chat::class);
     }
 
     /**
      * Get all the members in a chat
-     *
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \Microsoft\Graph\Exception\GraphException
      */
-    public function getMembersInChat($chat): array
+    public function getMembersInChat(Chat $chat): array
     {
-        return $this->get('/chats/'.$chat['id'].'/members');
+        return $this->get('/chats/'.$chat->getId().'/members', returns: ConversationMember::class);
     }
 
     /**
      * Get all the channels in a team
-     *
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \Microsoft\Graph\Exception\GraphException
      */
-    public function getChannels($team): array
+    public function getChannels(Team $team): array
     {
-        return $this->get('/teams/'.$team['id'].'/channels');
+        return $this->get('/teams/'.$team->getId().'/channels', returns: Channel::class);
     }
 
     /**
      * Send a message to a chat
-     *
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \Microsoft\Graph\Exception\GraphException
      */
-    public function send($chat, $message): array
+    public function send(Chat $chat, string $message): array
     {
 
         $data = json_decode('{"body": {"contentType": "html"}}');

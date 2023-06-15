@@ -17,13 +17,30 @@ trait Connect
         return $this->connection;
     }
 
-    private function get($url)
+    private function get($url, $headers = [], $returns = null)
     {
-        return $this->connect()->createRequest('GET', $url)->execute()->getBody()['value'];
+        return $this->call('GET', $url, [], $headers, $returns);
     }
 
-    private function post($url, $data)
+    private function post($url, $data, $headers = [])
     {
-        return $this->connect()->createRequest('POST', $url)->attachBody($data)->execute()->getBody();
+        return $this->call('POST', $url, $data, $headers);
+    }
+
+    private function patch($url, $data, $headers = [])
+    {
+        return $this->call('PATCH', $url, $data, $headers);
+    }
+
+    private function call($method, $url, $data = [], $headers = [], $returns = null)
+    {
+        $response = $this->connect()->createRequest($method, $url)->addHeaders($headers)->attachBody($data)->setReturnType($returns)->execute();
+
+        if (blank($returns) && strtolower($method) == 'get') {
+            return $response->getBody()['values'];
+        }
+
+        return $response;
+
     }
 }

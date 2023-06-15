@@ -38,19 +38,18 @@ class Excel
     /**
      * Set the values of a cell or range of cells
      *
-     * @return void
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Microsoft\Graph\Exception\GraphException
      */
-    public function setCellValues($cellRang, array $values)
+    public function setCellValues($cellRange, array $values): void
     {
         $values = array_values(collect($values)->map(function ($value, $key) {
             return [$value];
         })->toArray());
 
-        $url = '/me/drive/items/'.$this->fileId.'/workbook/worksheets/{00000000-0001-0000-0000-000000000000}/range(address=\''.$cellRang.'\')';
-        $this->connect()->createRequest('PATCH', $url)->addHeaders(['workbook-session-id' => $this->excelSession])->attachBody(['values' => $values])->execute();
+        $url = '/me/drive/items/'.$this->fileId.'/workbook/worksheets/{00000000-0001-0000-0000-000000000000}/range(address=\''.$cellRange.'\')';
+        $this->patch($url, ['values' => $values], headers: ['workbook-session-id' => $this->excelSession]);
     }
 
     /**
@@ -65,7 +64,7 @@ class Excel
     {
         $url = '/me/drive/items/'.$this->fileId.'/workbook/worksheets/{00000000-0001-0000-0000-000000000000}/range(address=\''.$cellRange.'\')';
 
-        return $this->connect()->createRequest('GET', $url)->addHeaders(['workbook-session-id' => $this->excelSession])->execute()->getBody();
+        return $this->get($url, headers: ['workbook-session-id' => $this->excelSession]);
     }
 
     /**
@@ -77,7 +76,7 @@ class Excel
     {
         $url = '/me/drive/items/'.$this->fileId.'/workbook/application/calculate';
 
-        return $this->connect()->createRequest('GET', $url)->execute()->getBody();
+        return $this->get($url);
     }
 
     /**

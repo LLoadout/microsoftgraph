@@ -11,7 +11,7 @@ This package makes a wrapper around the Microsoft Graph API.
 
 1. It provides a [Mail](#mail-usage) driver for Microsoft mail.
 2. It provides a storage driver for [OneDrive](#storage-usage).
-3. It provides functionality to interacti with Microsoft [Teams](#teams-usage).
+3. It provides functionality to interact with Microsoft [Teams](#teams-usage).
 4. It provides the possibility to work with [Excel](#excel-usage), making it possible to write and read Excel files.
 5. It allows you to manage [calendar](#calendar-usage) events.
 6. It allows you to manage contacts [contact](#contacts-usage).

@@ -2,10 +2,13 @@
     <img src="https://github.com/LLoadout/assets/blob/master/LLoadout_microsoftgraph.png" width="500" title="LLoadout logo">
 </p>
 
-# Laravel package for using Microsoft mail, OneDrive, Teams, Excel, Calendars and Contacts
-
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/lloadout/microsoftgraph.svg?style=flat-square)](https://packagist.org/packages/lloadout/microsoftgraph)
 [![Total Downloads](https://img.shields.io/packagist/dt/lloadout/microsoftgraph.svg?style=flat-square)](https://packagist.org/packages/lloadout/microsoftgraph)
+
+# Microsoft graph
+
+## Use case 
+Laravel package for using Microsoft mail, OneDrive, Teams, Excel, Calendars and Contacts
 
 This package makes a wrapper around the Microsoft Graph API.
 

@@ -30,7 +30,8 @@ You can install the package via composer:
 composer require lloadout/microsoftgraph
 ```
 
-Add this to your .env file and fill it with the values you specified in Microsoft Azure Portal app registration.
+Add this to your .env file and fill it with the values you specified in Microsoft Azure Portal app registration.  
+If you created a multi-tenant app in Azure AD than you don't put your tentant id into the `MS_TENANT_ID` variable but you set it to `common`.
 
 ```
 MS_TENANT_ID=

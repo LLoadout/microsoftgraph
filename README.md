@@ -99,6 +99,9 @@ Mail::raw('The body of my first test message', function($message) {
 
 ### Reading and handling mail
 
+You have to provide this API permissions: `Mail.Read, Mail.ReadWrite, Mail.ReadBasic`
+
+
 #### Available methods
 
 ```php

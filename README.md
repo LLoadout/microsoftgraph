@@ -18,6 +18,7 @@ This package makes a wrapper around the Microsoft Graph API.
 4. It provides the possibility to work with [Excel](#excel-usage), making it possible to write and read Excel files.
 5. It allows you to manage [calendar](#calendar-usage) events.
 6. It allows you to manage contacts [contact](#contacts-usage).
+7. It allows you to read and handle [mail](#reading-and-handling-mail).
 
 You need to register an app in the Microsoft Azure Portal to use this package. Follow the steps in the Microsoft docs:
 https://docs.microsoft.com/en-us/graph/auth-register-app-v2

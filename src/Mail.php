@@ -2,6 +2,7 @@
 
 namespace LLoadout\Microsoftgraph;
 
+use Illuminate\Support\Carbon;
 use LLoadout\Microsoftgraph\Traits\Authenticate;
 use LLoadout\Microsoftgraph\Traits\Connect;
 
@@ -94,5 +95,73 @@ class Mail
         }
 
         return $collection;
+    }
+
+    public function getMailFolders()
+    {
+        $url ='/me/mailfolders';
+
+        return $this->get($url);
+    }
+
+    public function getSubFolders($id)
+    {
+        $url = '/me/mailfolders/' . $id . '/childFolders';
+
+        return $this->get($url);
+    }
+
+    public function getMailMessagesFromFolder($folder = 'inbox', $isRead = true, $skip = 0, $limit = 20)
+    {
+        $url = '/me/mailfolders/' . $folder . '/messages?$select=Id,ReceivedDateTime,Subject,Sender,ToRecipients,From,HasAttachments,InternetMessageHeaders&$skip='.$skip.'&$top='.$limit;
+        if (! $isRead) {
+            $url .= '&$filter=isRead ne true';
+        }
+
+        $response = $this->get($url);
+
+        $mails    = [];
+        foreach ($response as $mail) {
+            $to = optional(collect($mail['internetMessageHeaders'])->keyBy('name')->get('X-Rcpt-To'))['value'];
+
+            $mails[] = [
+                'id'           => $mail['id'],
+                'date'         => Carbon::parse($mail['receivedDateTime'])->format('d-m-Y H:i'),
+                'subject'      => $mail['subject'],
+                'from'         => $mail['from']['emailAddress'],
+                'to'           => ! blank($to) ? $to : optional($mail['toRecipients'])[0]['emailAddress']['address'],
+                'attachements' => $mail['hasAttachments'],
+            ];
+        }
+
+        return $mails;
+    }
+
+    public function updateMessage($id, $data)
+    {
+        $url = '/me/messages/' . $id;
+
+        return $this->patch($url, $data);
+    }
+
+    public function moveMessage($id, $destinationId)
+    {
+        $url = '/me/messages/' . $id . '/move';
+
+        return $this->post($url, ['destinationId' => $destinationId]);
+    }
+
+    public function getMessage($id)
+    {
+        $url = config('socialite.office365.api_url') . '/me/messages/' . $id . '?$select=Id,ReceivedDateTime,createdDateTime,Subject,Sender,ToRecipients,From,HasAttachments,InternetMessageHeaders&$top=10&$skip=0';
+
+        return $this->get($url);
+    }
+
+    public function getMessageAttachements($id)
+    {
+        $url = '/me/messages/' . $id . '/attachments';
+
+        return $this->get($url);
     }
 }

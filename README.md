@@ -53,7 +53,8 @@ The second is the callback url you need to specify in Microsoft Azure Portal app
 https://your-url.com/microsoft/callback
 ```
 
-The callback will fire an MicrosoftGraphCallbackReceived event, this will automatically store your token in the session. You can add your token store logic in a listener for this event, for example:
+The callback will fire an MicrosoftGraphCallbackReceived event, this will automatically store your token in the session.
+You can add your token store logic in a listener for this event, for example:
 
 ```
 Event::listen(function (MicrosoftGraphCallbackReceived $event) {
@@ -63,8 +64,10 @@ Event::listen(function (MicrosoftGraphCallbackReceived $event) {
 });
 ```
 
-The package will search for a session variable name `microsoftgraph-access-data` for establishing the connection. So please provide this variable with your accessData as value when logging in.
-For example:  On login, you get your accesData from the database and store it into the session variable `microsoftgraph-access-data`.
+The package will search for a session variable name `microsoftgraph-access-data` for establishing the connection. So
+please provide this variable with your accessData as value when logging in.
+For example:  On login, you get your accesData from the database and store it into the session
+variable `microsoftgraph-access-data`.
 
 ## Mail usage
 
@@ -90,6 +93,34 @@ Mail::raw('The body of my first test message', function($message) {
 });
 ```
 
+### Reading and handling mail
+
+#### Available methods
+
+```php
+    getMailFolders(): array|GraphResponse|mixed
+    getSubFolders(id): array|GraphResponse|mixed
+    getMailMessagesFromFolder([folder: string = 'inbox'], [isRead: true = true], [skip: int = 0], [limit: int = 20]): array
+    updateMessage(id, data): array|GraphResponse|mixed
+    moveMessage(id, destinationId): array|GraphResponse|mixed
+    getMessage(id): array|GraphResponse|mixed
+    getMessageAttachements(id): array|GraphResponse|mixed
+```
+
+```php
+    $mail = app(Mail::class);
+
+    collect($mail->getMailFolders())->each(function($folder){
+        echo $folder['displayName']."<br />";
+    });
+
+    //get all unread messages from inbox
+    collect($mail->getMailMessagesFromFolder('inbox', isRead: false))->each(function($message) use ($mail){
+        echo $message['subject']."<br />";
+    });
+        
+```
+
 ## Storage usage
 
 ### Configuration
@@ -102,6 +133,11 @@ add the onedrive root to your .env file:
 MS_ONEDRIVE_ROOT="me/drive/root"
 ```
 
+### Available methods
+
+All methods from the Laravel Storage facade are available. https://laravel.com/docs/8.x/filesystem#configuration
+
+```php
 ### Usage
 
 The package created a disk called `onedrive`. This means that you can use all the methods as described in the Laravel docs: https://laravel.com/docs/8.x/filesystem#configuration
@@ -123,9 +159,19 @@ Storage::disk('onedrive')->get('Test folder/file1.txt');
 
 You have to provide this API permissions: `Chat.ReadWrite`
 
+### Available methods
+
+```php
+    getJoinedTeams(): array|GraphResponse|mixed
+    getChannels(team): array|GraphResponse|mixed
+    getChats(): array|GraphResponse|mixed
+    getMembersInChat(chat): array|GraphResponse|mixed
+    send(teamOrChat, message): array|GraphResponse|mixed
+```
+
 ### Usage
 
-First instantiate the Teams class 
+First instantiate the Teams class
 
 ```php
 $teamsClass = new Teams();
@@ -167,6 +213,17 @@ $teamsClass->send($teamOrChat,'Hello world!');
 
 You have to provide this API permissions: `Files.ReadWrite.all`
 
+### Available methods
+
+```php
+    loadFile(file): void
+    loadFileById(fileId): void
+    setCellValues(cellRange, values: array): void
+    getCellValues(cellRange): array
+    recalculate(): void
+    createSession(fileId): string
+```
+
 ### Usage
 
 First instantiate the Excel class
@@ -201,6 +258,15 @@ $excelClass->getCellValues('H1:H20');
 
 You have to provide this API permissions: `Calendars.ReadWrite`
 
+### Available methods
+
+```php
+    getCalendars(): array
+    getCalendarEvents(calendar: Calendar): array
+    saveEventToCalendar(calendar: Calendar, event: Event): GraphResponse|mixed
+    makeEvent(starttime: string, endtime: string, timezone: string, subject: string, body: string, [attendees: array = [...]], [isOnlineMeeting: bool = false]): Event
+```
+
 ### Usage
 
 First instantiate the Calendar class
@@ -222,7 +288,8 @@ $events = $calendarClass->getCalendarEvents($calendar);
 ```
 
 Save an event to a calendar, the event object is a MicrosoftGraphEvent object
-We made a helper function to create an event object `Calendar::makeEvent(string $starttime, string $endtime, string $timezone, string $subject, string $body, array $attendees = [], bool $isOnlineMeeting = false)`
+We made a helper function to create an event
+object `Calendar::makeEvent(string $starttime, string $endtime, string $timezone, string $subject, string $body, array $attendees = [], bool $isOnlineMeeting = false)`
 
 ```php
 $calendarClass->saveEvent($calendar, $event);
@@ -233,6 +300,13 @@ $calendarClass->saveEvent($calendar, $event);
 ### Configuration
 
 You have to provide this API permissions: `Contacts.ReadWrite`
+
+
+### Available methods
+
+```php
+    getContacts(): array
+```
 
 ### Usage
 

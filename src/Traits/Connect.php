@@ -37,10 +37,20 @@ trait Connect
         $response = $this->connect()->createRequest($method, $url)->addHeaders($headers)->attachBody($data)->setReturnType($returns)->execute();
 
         if (blank($returns) && strtolower($method) == 'get') {
-            return $response->getBody()['values'];
+            if (isset($response->getBody()['value']))
+                return $response->getBody()['value'];
+            else
+                return $response->getBody();
         }
 
         return $response;
 
+    }
+
+    public function getMe()
+    {
+        $url = '/me/';
+
+        return $this->get($url);
     }
 }

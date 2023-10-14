@@ -141,7 +141,6 @@ MS_ONEDRIVE_ROOT="me/drive/root"
 
 All methods from the Laravel Storage facade are available. https://laravel.com/docs/8.x/filesystem#configuration
 
-```php
 ### Usage
 
 The package created a disk called `onedrive`. This means that you can use all the methods as described in the Laravel docs: https://laravel.com/docs/8.x/filesystem#configuration

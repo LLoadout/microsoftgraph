@@ -8,6 +8,8 @@ use LLoadout\Microsoftgraph\Traits\Connect;
 use Microsoft\Graph\Model\DateTimeTimeZone;
 use Microsoft\Graph\Model\EmailAddress;
 use Microsoft\Graph\Model\ItemBody;
+use Microsoft\Graph\Model\Location;
+use Microsoft\Graph\Model\PhysicalAddress;
 
 class Calendar
 {
@@ -15,11 +17,19 @@ class Calendar
         Authenticate;
 
     /**
-     * Get all contacts
+     * Get all calendars
      */
     public function getCalendars(): array
     {
         return $this->get('/me/calendars', returns: \Microsoft\Graph\Model\Calendar::class);
+    }
+
+    /**
+     * Get single calendars
+     */
+    public function getCalendar($calendar_id)
+    {
+        return $this->get('/me/calendars/'.$calendar_id, returns: \Microsoft\Graph\Model\Calendar::class);
     }
 
     /**
@@ -44,7 +54,7 @@ class Calendar
      * Make an event and return an event object of the type \Microsoft\Graph\Model\Event
      * this is a shortcut to creating an event object and setting all the bases properties.
      */
-    public function makeEvent(string $starttime, string $endtime, string $timezone, string $subject, string $body, array $attendees = [], bool $isOnlineMeeting = false): \Microsoft\Graph\Model\Event
+    public function makeEvent(string $starttime, string $endtime, string $timezone, string $subject, string $body, object $location_address, array $attendees = [], bool $isOnlineMeeting = false): \Microsoft\Graph\Model\Event
     {
 
         $event = app(\Microsoft\Graph\Model\Event::class);
@@ -65,7 +75,19 @@ class Calendar
         $end->setTimeZone($timezone);
         $event->setEnd($end);
 
-        $event->setIsOnlineMeeting(true);
+        $event->setIsOnlineMeeting($isOnlineMeeting);
+
+        if ( $location_address ) {
+            $address = new PhysicalAddress();
+            $address->setStreet($location_address->address_street.' '.$location_address->address_house_nr.trim(' '.$location_address->suffix));
+            $address->setPostalCode($location_address->address_zip_code);
+            $address->setCity($location_address->address_city);
+            $address->setCountryOrRegion($location_address->address_country);
+
+            $location = new Location();
+            $location->setAddress($address);
+            $event->setLocation($location);
+        }
 
         $arrOfAttendees = [];
         foreach ($attendees as $attendee) {

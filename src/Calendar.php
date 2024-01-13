@@ -52,7 +52,7 @@ class Calendar
 
     /**
      * Make an event and return an event object of the type \Microsoft\Graph\Model\Event
-     * this is a shortcut to creating an event object and setting all the bases properties.
+     * this is a shortcut for creating an event object and setting all the bases properties.
      */
     public function makeEvent(string $starttime, string $endtime, string $timezone, string $subject, string $body, object $location_address, array $attendees = [], bool $isOnlineMeeting = false): \Microsoft\Graph\Model\Event
     {

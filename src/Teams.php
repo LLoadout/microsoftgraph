@@ -4,6 +4,7 @@ namespace LLoadout\Microsoftgraph;
 
 use LLoadout\Microsoftgraph\Traits\Authenticate;
 use LLoadout\Microsoftgraph\Traits\Connect;
+use Microsoft\Graph\Http\GraphResponse;
 use Microsoft\Graph\Model\Channel;
 use Microsoft\Graph\Model\Chat;
 use Microsoft\Graph\Model\ConversationMember;
@@ -31,6 +32,14 @@ class Teams
     }
 
     /**
+     * Get a specific chat by id
+     */
+    public function getChat(string $id): Chat
+    {
+        return $this->get('/me/chats/'.$id, returns: Chat::class);
+    }
+
+    /**
      * Get all the members in a chat
      */
     public function getMembersInChat(Chat $chat): array
@@ -49,7 +58,7 @@ class Teams
     /**
      * Send a message to a chat
      */
-    public function send(Chat|Channel $chat, string $message): array
+    public function send(Chat|Channel $chat, string $message): GraphResponse
     {
 
         $data = json_decode('{"body": {"contentType": "html"}}');

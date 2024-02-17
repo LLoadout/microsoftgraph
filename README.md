@@ -172,6 +172,7 @@ You have to provide this API permissions: `Chat.ReadWrite`
     getJoinedTeams(): array|GraphResponse|mixed
     getChannels(team): array|GraphResponse|mixed
     getChats(): array|GraphResponse|mixed
+    getChat(id): array|GraphResponse|mixed
     getMembersInChat(chat): array|GraphResponse|mixed
     send(teamOrChat, message): array|GraphResponse|mixed
 ```
@@ -200,6 +201,12 @@ Get all the chats for a user ( additional permissions needed: `Chat.Read.All` )
 
 ```php
 $chats = $teamsClass->getChats(); 
+
+```
+Get a chat by a given id ( additional permissions needed: `Chat.Read.All` )
+
+```php
+$chats = $teamsClass->getChat('your-chat-id'); 
 ```
 
 Get all the members in a channel ( additional permissions needed: `ChannelMessage.Read.All` )

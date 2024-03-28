@@ -38,7 +38,7 @@ class MicrosoftgraphServiceProvider extends PackageServiceProvider
         $config = $this->app['config']->get('services', []);
         $this->app['config']->set('services', array_merge([
             'microsoft' => [
-                'tenant_id' => env('MS_TENANT_ID'),
+                'tenant' => env('MS_TENANT_ID'),
                 'client_id' => env('MS_CLIENT_ID'),
                 'client_secret' => env('MS_CLIENT_SECRET'),
                 'redirect' => env('MS_REDIRECT_URL'),

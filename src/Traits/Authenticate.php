@@ -6,6 +6,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Http;
 use LLoadout\Microsoftgraph\EventListeners\MicrosoftGraphCallbackReceived;
+use LLoadout\Microsoftgraph\EventListeners\MicrosoftGraphErrorReceived;
 
 trait Authenticate
 {
@@ -19,6 +20,16 @@ trait Authenticate
     {
         $user = Http::withToken($tokenData->access_token)->get('https://graph.microsoft.com/v1.0/me')->object();
         MicrosoftGraphCallbackReceived::dispatch(encrypt((object) ['user' => $user, 'expires_on' => $tokenData->expires_on, 'access_token' => $tokenData->access_token, 'refresh_token' => $tokenData->refresh_token]));
+    }
+
+    public function callback(): void
+    {
+        if (request()->has('error')) {
+            MicrosoftGraphErrorReceived::dispatch(encrypt((object)['error' => request('error'), 'error_description' => request('error_description')]));
+        } else {
+            $tokenData = Http::asForm()->post('https://login.microsoftonline.com/' . config('services.microsoft.tenant_id') . '/oauth2/token', $this->getTokenFields(request('code')))->object();
+            $this->dispatchCallbackReceived($tokenData);
+        }
     }
 
     private function getAccessToken()

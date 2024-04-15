@@ -12,7 +12,7 @@ trait Authenticate
 {
     private function refreshAccessToken($refreshtoken): void
     {
-        $tokenData = Http::asForm()->post('https://login.microsoftonline.com/'.config('services.microsoft.tenant_id').'/oauth2/token', $this->getRefreshFields($refreshtoken))->object();
+        $tokenData = Http::asForm()->post('https://login.microsoftonline.com/'.config('services.microsoft.tenant').'/oauth2/token', $this->getRefreshFields($refreshtoken))->object();
         $this->dispatchCallbackReceived($tokenData);
     }
 
@@ -24,7 +24,7 @@ trait Authenticate
 
     public function callback(): void
     {
-            $tokenData = Http::asForm()->post('https://login.microsoftonline.com/' . config('services.microsoft.tenant_id') . '/oauth2/token', $this->getTokenFields(request('code')))->object();
+            $tokenData = Http::asForm()->post('https://login.microsoftonline.com/' . config('services.microsoft.tenant') . '/oauth2/token', $this->getTokenFields(request('code')))->object();
             $this->dispatchCallbackReceived($tokenData);
     }
 

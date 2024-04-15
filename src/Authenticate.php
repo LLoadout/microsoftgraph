@@ -21,7 +21,7 @@ class Authenticate
         if (request()->has('error')) {
             MicrosoftGraphErrorReceived::dispatch(encrypt((object)['error' => request('error'), 'error_description' => request('error_description')]));
         } else {
-            $tokenData = Http::asForm()->post('https://login.microsoftonline.com/' . config('services.microsoft.tenant_id') . '/oauth2/token', $this->getTokenFields(request('code')))->object();
+            $tokenData = Http::asForm()->post('https://login.microsoftonline.com/' . config('services.microsoft.tenant') . '/oauth2/token', $this->getTokenFields(request('code')))->object();
             $this->dispatchCallbackReceived($tokenData);
             return redirect('/');
         }

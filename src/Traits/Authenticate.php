@@ -37,6 +37,7 @@ trait Authenticate
         if (isset($accessData->access_token)) {
             if (Carbon::createFromTimestamp($accessData->expires_on)->lte(Carbon::now())) {
                 $this->refreshAccessToken($accessData->refresh_token);
+                $accessData = decrypt(session('microsoftgraph-access-data'));
             }
 
             return $accessData->access_token;

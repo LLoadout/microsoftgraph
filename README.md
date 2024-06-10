@@ -58,15 +58,16 @@ The second is the callback url you need to specify in Microsoft Azure Portal app
 https://your-url.com/microsoft/callback
 ```
 
-The callback will fire an MicrosoftGraphCallbackReceived event, this will automatically store your token in the session.
-You can add your token store logic in a listener for this event, for example:
+The callback will fire an MicrosoftGraphCallbackReceived event, you have to listen for this event in your EventServiceProvider and store the accessData to a session variable `microsoftgraph-access-data`.
+You can add your token store logic in a listener for this event.
 
 ```
-Event::listen(function (MicrosoftGraphCallbackReceived $event) {
-    $user = Auth::user();
-    $user->accessdata = $event->accessData;
-    $user->save();
-});
+public function boot()
+{
+    Event::listen(function (MicrosoftGraphCallbackReceived $event) {
+        session()->put('microsoftgraph-access-data', $event->accessData); 
+    });
+}
 ```
 
 The package will search for a session variable name `microsoftgraph-access-data` for establishing the connection. So

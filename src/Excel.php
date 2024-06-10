@@ -80,6 +80,21 @@ class Excel
     }
 
     /**
+     * Clear range values such as format, fill, and border.
+     *
+     *
+     * @param $cellRange
+     * @param string $applyTo
+     * @return void
+     */
+    public function clearRange($cellRange, string $applyTo = 'All'): void
+    {
+        $url = '/me/drive/items/'.$this->fileId.'/workbook/worksheets/{00000000-0001-0000-0000-000000000000}/range(address=\''.$cellRange.'\')/clear';
+        $this->post($url, ['applyTo' => $applyTo]);
+    }
+    
+
+    /**
      * Create a session for the excel file
      *
      * @throws \GuzzleHttp\Exception\GuzzleException

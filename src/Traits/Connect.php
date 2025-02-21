@@ -22,14 +22,19 @@ trait Connect
         return $this->call('GET', $url, [], $headers, $returns);
     }
 
-    private function post($url, $data, $headers = [])
+    private function post($url, $data, $headers = [], $returns = null)
     {
-        return $this->call('POST', $url, $data, $headers);
+        return $this->call('POST', $url, $data, $headers, $returns);
     }
 
-    private function patch($url, $data, $headers = [])
+    private function patch($url, $data, $headers = [], $returns = null)
     {
-        return $this->call('PATCH', $url, $data, $headers);
+        return $this->call('PATCH', $url, $data, $headers, $returns);
+    }
+
+    private function delete($url, $headers = [], $returns = null)
+    {
+        return $this->call('DELETE', $url, [], $headers, $returns);
     }
 
     private function call($method, $url, $data = [], $headers = [], $returns = null)

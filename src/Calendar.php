@@ -11,13 +11,23 @@ use Microsoft\Graph\Model\ItemBody;
 use Microsoft\Graph\Model\Location;
 use Microsoft\Graph\Model\PhysicalAddress;
 
+/**
+ * Calendar class for interacting with Microsoft Graph Calendar API
+ * 
+ * This class provides methods to interact with Microsoft Calendar including:
+ * - Getting calendars and events
+ * - Creating and saving calendar events
+ * - Managing event details like attendees, location, and online meeting status
+ */
 class Calendar
 {
     use Connect,
         Authenticate;
 
     /**
-     * Get all calendars
+     * Get all calendars for the authenticated user
+     * 
+     * @return array Array of Calendar objects
      */
     public function getCalendars(): array
     {
@@ -25,7 +35,10 @@ class Calendar
     }
 
     /**
-     * Get single calendars
+     * Get a single calendar by ID
+     * 
+     * @param string $calendar_id The ID of the calendar to retrieve
+     * @return \Microsoft\Graph\Model\Calendar The requested calendar
      */
     public function getCalendar($calendar_id)
     {
@@ -33,7 +46,10 @@ class Calendar
     }
 
     /**
-     * Get all events in a calendar
+     * Get all events from a specific calendar
+     * 
+     * @param \Microsoft\Graph\Model\Calendar $calendar The calendar to get events from
+     * @return array Array of Event objects
      */
     public function getCalendarEvents(\Microsoft\Graph\Model\Calendar $calendar): array
     {
@@ -42,8 +58,10 @@ class Calendar
 
     /**
      * Save an event to a calendar
-     *
-     * @return \Microsoft\Graph\Http\GraphResponse|mixed
+     * 
+     * @param \Microsoft\Graph\Model\Calendar $calendar The calendar to save the event to
+     * @param \Microsoft\Graph\Model\Event $event The event to save
+     * @return \Microsoft\Graph\Http\GraphResponse|mixed Response from the API
      */
     public function saveEventToCalendar(\Microsoft\Graph\Model\Calendar $calendar, \Microsoft\Graph\Model\Event $event)
     {
@@ -51,8 +69,23 @@ class Calendar
     }
 
     /**
-     * Make an event and return an event object of the type \Microsoft\Graph\Model\Event
-     * this is a shortcut for creating an event object and setting all the bases properties.
+     * Create a new calendar event with all necessary properties
+     * 
+     * @param string $starttime Start time of the event in ISO 8601 format
+     * @param string $endtime End time of the event in ISO 8601 format
+     * @param string $timezone Timezone for the event (e.g. 'Europe/Brussels')
+     * @param string $subject Subject/title of the event
+     * @param string $body Body/description of the event (HTML supported)
+     * @param object $location_address Location object containing address details:
+     *                                - address_street: Street name
+     *                                - address_house_nr: House number
+     *                                - suffix: Address suffix
+     *                                - address_zip_code: Postal code
+     *                                - address_city: City
+     *                                - address_country: Country
+     * @param array $attendees Array of email addresses for attendees
+     * @param bool $isOnlineMeeting Whether this is an online meeting
+     * @return \Microsoft\Graph\Model\Event The created event object
      */
     public function makeEvent(string $starttime, string $endtime, string $timezone, string $subject, string $body, object $location_address, array $attendees = [], bool $isOnlineMeeting = false): \Microsoft\Graph\Model\Event
     {

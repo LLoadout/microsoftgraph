@@ -5,7 +5,7 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/lloadout/microsoftgraph.svg?style=flat-square)](https://packagist.org/packages/lloadout/microsoftgraph)
 [![Total Downloads](https://img.shields.io/packagist/dt/lloadout/microsoftgraph.svg?style=flat-square)](https://packagist.org/packages/lloadout/microsoftgraph)
 
-# Microsoft graph
+# Laravel Microsoft graph
 
 ## Use case 
 Laravel package for using Microsoft mail, OneDrive, Teams, Excel, Calendars and Contacts

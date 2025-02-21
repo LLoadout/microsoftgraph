@@ -42,6 +42,7 @@ class MicrosoftgraphServiceProvider extends PackageServiceProvider
                 'client_id' => env('MS_CLIENT_ID'),
                 'client_secret' => env('MS_CLIENT_SECRET'),
                 'redirect' => env('MS_REDIRECT_URL'),
+                'redirect_after_callback' => env('MS_REDIRECT_AFTER_CALLBACK_URL','/'),
             ],
         ], $config));
 

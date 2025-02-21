@@ -40,6 +40,7 @@ MS_CLIENT_ID=
 MS_CLIENT_SECRET=
 MS_GRAPH_API_VERSION=v1.0
 MS_REDIRECT_URL=https://your-url.com/microsoft/callback
+MS_REDIRECT_AFTER_CALLBACK_URL=https://your-url.com/dashboard
 ```
 
 ## Connect your account
@@ -74,6 +75,8 @@ The package will search for a session variable name `microsoftgraph-access-data`
 please provide this variable with your accessData as value when logging in.
 For example:  On login, you get your accesData from the database and store it into the session
 variable `microsoftgraph-access-data`.
+
+After the callback, the package will redirect you to the url you specified in the `MS_REDIRECT_AFTER_CALLBACK_URL` variable. If this variable is not set, the package will redirect to the root of your application.
 
 ## Mail usage
 

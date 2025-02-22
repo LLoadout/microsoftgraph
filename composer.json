@@ -1,6 +1,6 @@
 {
     "name": "lloadout/microsoftgraph",
-    "description": "This package offers a wrapper round Microsoft Graph API",
+    "description": "Laravel package for Microsoft graph (Microsoft 365). Manage mail, OneDrive, Teams, Excel, Calendars and Contacts with ease",
     "keywords": [
         "LLoadout",
         "laravel",

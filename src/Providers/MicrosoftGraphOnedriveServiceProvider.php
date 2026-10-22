@@ -21,10 +21,14 @@ class MicrosoftGraphOnedriveServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Storage::extend('onedrive', function ($app, $config) {
-            $graph = (new Graph())->setAccessToken($this->getAccessToken());
+        // Laravel 13 rebinds the Storage::extend() closure to the FilesystemManager,
+        // so $this inside the closure is no longer this provider. Capture it explicitly.
+        $provider = $this;
 
-            $adapter = new OnedriveAdapter($graph, $config['root'], true);
+        Storage::extend('onedrive', static function ($app, $config) use ($provider) {
+            $graph = (new Graph())->setAccessToken($provider->resolveAccessToken());
+
+            $adapter = new OnedriveAdapter($graph, $config['root'] ?: 'root', true);
 
             return new FilesystemAdapter(
                 new Filesystem($adapter, $config),
@@ -32,5 +36,15 @@ class MicrosoftGraphOnedriveServiceProvider extends ServiceProvider
                 $config
             );
         });
+    }
+
+    /**
+     * Resolve the Microsoft Graph access token from the current session.
+     *
+     * @return string
+     */
+    public function resolveAccessToken()
+    {
+        return $this->getAccessToken();
     }
 }

@@ -10,7 +10,7 @@ use Symfony\Component\Mime\RawMessage;
 
 class MicrosoftGraphTransport implements TransportInterface
 {
-    public function send(RawMessage $message, Envelope $envelope = null): ?SentMessage
+    public function send(RawMessage $message, ?Envelope $envelope = null): ?SentMessage
     {
         app(Mail::class)->sendMail($message);
 
@@ -19,6 +19,6 @@ class MicrosoftGraphTransport implements TransportInterface
 
     public function __toString(): string
     {
-        return '';
+        return 'microsoftgraph';
     }
 }

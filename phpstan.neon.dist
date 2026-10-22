@@ -1,8 +1,10 @@
 includes:
-    - ./vendor/nunomaduro/larastan/extension.neon
+    - ./vendor/larastan/larastan/extension.neon
 
 parameters:
     level: 1
     paths:
         - src
     tmpDir: build/phpstan
+    # The service provider deliberately seeds config from env(); this rule targets app code.
+    noEnvCallsOutsideOfConfig: false

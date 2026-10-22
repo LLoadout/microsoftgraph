@@ -2,7 +2,7 @@
 
 All notable changes to `microsoftgraph` will be documented in this file.
 
-## Unreleased
+## v1.21 - 2026-10-22
 
 - Added support for Laravel 13 (and 11, 12) with `orchestra/testbench` 9–11.
 - Minimum PHP version is now 8.2.

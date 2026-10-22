@@ -23,6 +23,12 @@ This package makes a wrapper around the Microsoft Graph API.
 You need to register an app in the Microsoft Azure Portal to use this package. Follow the steps in the Microsoft docs:
 https://docs.microsoft.com/en-us/graph/auth-register-app-v2
 
+## Requirements
+
+| Package version | PHP | Laravel |
+|---|---|---|
+| current | ^8.2 | 9.x, 10.x, 11.x, 12.x, 13.x |
+
 ## Installation
 
 You can install the package via composer:
@@ -32,7 +38,7 @@ composer require lloadout/microsoftgraph
 ```
 
 Add this to your .env file and fill it with the values you specified in Microsoft Azure Portal app registration.  
-If you created a multi-tenant app in Azure AD than you don't put your tentant id into the `MS_TENANT_ID` variable but you set it to `common`.
+If you created a multi-tenant app in Azure AD then you don't put your tenant id into the `MS_TENANT_ID` variable but you set it to `common`.
 
 ```
 MS_TENANT_ID=
@@ -45,21 +51,21 @@ MS_REDIRECT_AFTER_CALLBACK_URL=https://your-url.com/dashboard
 
 ## Connect your account
 
-The package uses OAuth and provides two routes
+The package uses OAuth and provides two routes.
 
-The first redirects you to the consent screen of Microsoft
+The first redirects you to the consent screen of Microsoft.
 
 ```
 https://your-url.com/microsoft/connect
 ```
 
-The second is the callback url you need to specify in Microsoft Azure Portal app registration as redirect uri
+The second is the callback url you need to specify in Microsoft Azure Portal app registration as redirect URI.
 
 ```
 https://your-url.com/microsoft/callback
 ```
 
-The callback will fire an MicrosoftGraphCallbackReceived event, you have to listen for this event in your EventServiceProvider and store the accessData to a session variable `microsoftgraph-access-data`.
+The callback will fire a MicrosoftGraphCallbackReceived event, you have to listen for this event in your EventServiceProvider and store the accessData to a session variable `microsoftgraph-access-data`.
 You can add your token store logic in a listener for this event.
 
 ```
@@ -71,9 +77,9 @@ public function boot()
 }
 ```
 
-The package will search for a session variable name `microsoftgraph-access-data` for establishing the connection. So
+The package will search for a session variable named `microsoftgraph-access-data` for establishing the connection. So
 please provide this variable with your accessData as value when logging in.
-For example:  On login, you get your accesData from the database and store it into the session
+For example:  On login, you get your accessData from the database and store it into the session
 variable `microsoftgraph-access-data`.
 
 After the callback, the package will redirect you to the url you specified in the `MS_REDIRECT_AFTER_CALLBACK_URL` variable. If this variable is not set, the package will redirect to the root of your application.
@@ -82,7 +88,7 @@ After the callback, the package will redirect you to the url you specified in th
 
 ### Configuration
 
-You have to provide this API permissions: `Mail.send`
+You have to provide these API permissions: `Mail.send`
 
 Set the environment variable MAIL_MAILER in your .env file
 
@@ -90,7 +96,7 @@ Set the environment variable MAIL_MAILER in your .env file
 MAIL_MAILER=microsoftgraph
 ```
 
-note: make sure your from address is the address you gave the consent to
+Note: make sure your from address is the address you gave consent for.
 
 ### Usage
 
@@ -98,13 +104,13 @@ note: make sure your from address is the address you gave the consent to
 Mail::send(new YourMailable());
 
 Mail::raw('The body of my first test message', function($message) {
-    $message->to('john@doe.com', 'John Doe')->subject('A mail send via lloadout/microsoftgraph');
+    $message->to('john@doe.com', 'John Doe')->subject('A mail sent via lloadout/microsoftgraph');
 });
 ```
 
 ### Reading and handling mail
 
-You have to provide this API permissions: `Mail.Read, Mail.ReadWrite, Mail.ReadBasic`
+You have to provide these API permissions: `Mail.Read, Mail.ReadWrite, Mail.ReadBasic`
 
 
 #### Available methods
@@ -137,9 +143,9 @@ You have to provide this API permissions: `Mail.Read, Mail.ReadWrite, Mail.ReadB
 
 ### Configuration
 
-You have to provide this API permissions: `Files.ReadWrite.all`
+You have to provide these API permissions: `Files.ReadWrite.all`
 
-add the onedrive root to your .env file:
+Add the OneDrive root to your .env file:
 
 ```
 MS_ONEDRIVE_ROOT="me/drive/root"
@@ -147,11 +153,11 @@ MS_ONEDRIVE_ROOT="me/drive/root"
 
 ### Available methods
 
-All methods from the Laravel Storage facade are available. https://laravel.com/docs/8.x/filesystem#configuration
+All methods from the Laravel Storage facade are available. https://laravel.com/docs/filesystem
 
 ### Usage
 
-The package created a disk called `onedrive`. This means that you can use all the methods as described in the Laravel docs: https://laravel.com/docs/8.x/filesystem#configuration
+The package created a disk called `onedrive`. This means that you can use all the methods as described in the Laravel docs: https://laravel.com/docs/filesystem
 
 ```php
 $disk = Storage::disk('onedrive');
@@ -168,7 +174,7 @@ Storage::disk('onedrive')->get('Test folder/file1.txt');
 
 ### Configuration
 
-You have to provide this API permissions: `Chat.ReadWrite`
+You have to provide these API permissions: `Chat.ReadWrite`
 
 ### Available methods
 
@@ -195,7 +201,7 @@ Get all the teams you are a member of ( additional permissions needed: `Group.Re
 $joinedTeams = $teamsClass->getJoinedTeams();
 ```
 
-Get alle the channels for a team ( additional permissions needed: `Group.Read.All` )
+Get all the channels for a team ( additional permissions needed: `Group.Read.All` )
 
 ```php
 $channels = $teamsClass->getChannels($team);
@@ -216,7 +222,7 @@ $chats = $teamsClass->getChat('your-chat-id');
 Get all the members in a channel ( additional permissions needed: `ChannelMessage.Read.All` )
 
 ```php
-$members = $teamsClass->getMembersInChat($chat));
+$members = $teamsClass->getMembersInChat($chat);
 ```
 
 Send a message to a channel ( additional permissions needed: `ChannelMessage.Send` )
@@ -229,7 +235,7 @@ $teamsClass->send($teamOrChat,'Hello world!');
 
 ### Configuration
 
-You have to provide this API permissions: `Files.ReadWrite.all`
+You have to provide these API permissions: `Files.ReadWrite.all`
 
 ### Available methods
 
@@ -274,7 +280,7 @@ $excelClass->getCellValues('H1:H20');
 
 ### Configuration
 
-You have to provide this API permissions: `Calendars.ReadWrite`
+You have to provide these API permissions: `Calendars.ReadWrite`
 
 ### Available methods
 
@@ -310,14 +316,14 @@ We made a helper function to create an event
 object `Calendar::makeEvent(string $starttime, string $endtime, string $timezone, string $subject, string $body, array $attendees = [], bool $isOnlineMeeting = false)`
 
 ```php
-$calendarClass->saveEvent($calendar, $event);
+$calendarClass->saveEventToCalendar($calendar, $event);
 ```
 
 ## Contacts usage
 
 ### Configuration
 
-You have to provide this API permissions: `Contacts.ReadWrite`
+You have to provide these API permissions: `Contacts.ReadWrite`
 
 
 ### Available methods

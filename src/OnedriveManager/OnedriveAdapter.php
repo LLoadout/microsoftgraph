@@ -11,6 +11,7 @@ use League\Flysystem\DirectoryAttributes;
 use League\Flysystem\FileAttributes;
 use League\Flysystem\FilesystemAdapter;
 use League\Flysystem\StorageAttributes;
+use League\Flysystem\UnableToReadFile;
 use Microsoft\Graph\Graph;
 
 class OnedriveAdapter extends OnedriveUtiltyAdapter implements FilesystemAdapter
@@ -59,20 +60,22 @@ class OnedriveAdapter extends OnedriveUtiltyAdapter implements FilesystemAdapter
         }
     }
 
-    public function write(string $path, string $contents, Config $config = null): void
+    public function write(string $path, string $contents, Config $config): void
     {
         $this->upload($path, $contents);
     }
 
-    public function writeStream(string $path, $contents, Config $config = null): void
+    public function writeStream(string $path, $contents, Config $config): void
     {
         $this->upload($path, $contents);
     }
 
     public function read(string $path): string
     {
-        if (! $object = $this->readStream($path)) {
-            return false;
+        $object = $this->readStream($path);
+
+        if (empty($object['stream'])) {
+            throw UnableToReadFile::fromLocation($path);
         }
 
         $object['contents'] = stream_get_contents($object['stream']);
@@ -129,7 +132,7 @@ class OnedriveAdapter extends OnedriveUtiltyAdapter implements FilesystemAdapter
     /**
      * @throws GuzzleException
      */
-    public function createDirectory(string $path, Config $config = null): void
+    public function createDirectory(string $path, Config $config): void
     {
         $patch = explode('/', $path);
         $sliced = implode('/', array_slice($patch, 0, -1));
@@ -212,16 +215,16 @@ class OnedriveAdapter extends OnedriveUtiltyAdapter implements FilesystemAdapter
     /**
      * @throws Exception
      */
-    public function move(string $source, string $destination, Config $config = null): void
+    public function move(string $source, string $destination, Config $config): void
     {
         try {
-            $this->copy($source, $destination);
+            $this->copy($source, $destination, $config);
             $this->delete($source);
         } catch (Exception $e) {
         }
     }
 
-    public function copy(string $source, string $destination, Config $config = null): void
+    public function copy(string $source, string $destination, Config $config): void
     {
         $endpoint = $this->applyPathPrefix($source);
 

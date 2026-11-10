@@ -13,6 +13,11 @@ trait Authenticate
     private function refreshAccessToken($refreshtoken): void
     {
         $tokenData = Http::asForm()->post('https://login.microsoftonline.com/'.config('services.microsoft.tenant').'/oauth2/token', $this->getRefreshFields($refreshtoken))->object();
+
+        if (! $this->hasAccessToken($tokenData)) {
+            throw new \Exception('Your access data is invalid, please reconnect');
+        }
+
         $this->dispatchCallbackReceived($tokenData);
     }
 
@@ -22,10 +27,48 @@ trait Authenticate
         MicrosoftGraphCallbackReceived::dispatch(encrypt((object) ['user' => $user, 'expires_on' => $tokenData->expires_on, 'access_token' => $tokenData->access_token, 'refresh_token' => $tokenData->refresh_token]));
     }
 
+    private function dispatchErrorReceived($error, $errorDescription = null): void
+    {
+        MicrosoftGraphErrorReceived::dispatch(encrypt((object) ['error' => $error, 'error_description' => $errorDescription]));
+    }
+
     public function callback(): void
     {
-            $tokenData = Http::asForm()->post('https://login.microsoftonline.com/' . config('services.microsoft.tenant') . '/oauth2/token', $this->getTokenFields(request('code')))->object();
-            $this->dispatchCallbackReceived($tokenData);
+        $this->handleAuthorizationCode(request('code'));
+    }
+
+    /**
+     * Exchanges the authorization code for access data and dispatches the matching event.
+     * Returns true when the access data was received.
+     */
+    private function handleAuthorizationCode($code): bool
+    {
+        if (blank($code)) {
+            $this->dispatchErrorReceived('invalid_request', 'No authorization code received');
+
+            return false;
+        }
+
+        $tokenData = Http::asForm()->post('https://login.microsoftonline.com/'.config('services.microsoft.tenant').'/oauth2/token', $this->getTokenFields($code))->object();
+
+        if (! $this->hasAccessToken($tokenData)) {
+            $this->dispatchErrorReceived($tokenData->error ?? 'invalid_token_response', $tokenData->error_description ?? null);
+
+            return false;
+        }
+
+        $this->dispatchCallbackReceived($tokenData);
+
+        return true;
+    }
+
+    /**
+     * A failed token request (an authorization code that was already redeemed, e.g. by a link preview bot,
+     * or an expired refresh token) returns an error object instead of an access token.
+     */
+    private function hasAccessToken($tokenData): bool
+    {
+        return is_object($tokenData) && is_string($tokenData->access_token ?? null) && $tokenData->access_token !== '';
     }
 
     private function getAccessToken()

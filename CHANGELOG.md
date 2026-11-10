@@ -2,6 +2,11 @@
 
 All notable changes to `microsoftgraph` will be documented in this file.
 
+## v1.22 - 2026-11-10
+
+- More robust OAuth callback handling: an error from Microsoft, a missing authorization code, or a code that could not be exchanged for an access token (for example one already redeemed by a link-preview bot) now dispatches `MicrosoftGraphErrorReceived` instead of failing on an empty token response.
+- Refreshing an expired access token with an invalid refresh token now throws a clear "please reconnect" exception instead of dispatching an event with empty data.
+
 ## v1.21 - 2026-10-22
 
 - Added support for Laravel 13 (and 11, 12) with `orchestra/testbench` 9–11.
